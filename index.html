@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Land Cruiser Workshop</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f0e8; font-family: 'Courier New', Courier, monospace; color: #2a2118; }
+  .page-header { border-bottom: 3px solid #2a2118; padding: 2rem 2rem 1.5rem; background: #f5f0e8; }
+  .site-title { font-size: 2rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; }
+  .site-subtitle { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.4rem; color: #6b5a3e; border-top: 1px solid #2a2118; padding-top: 0.4rem; margin-top: 0.5rem; }
+  .series-tabs { display: flex; border-bottom: 2px solid #2a2118; background: #f5f0e8; padding: 0 2rem; }
+  .tab { padding: 0.75rem 1.5rem; font-family: 'Courier New', monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border: none; background: none; color: #6b5a3e; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: color 0.1s; }
+  .tab:hover { color: #2a2118; }
+  .tab.active { color: #2a2118; border-bottom: 3px solid #2a2118; }
+  .content { padding: 2rem; }
+  .series-panel { display: none; }
+  .series-panel.active { display: block; }
+  .series-intro { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5a3e; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #c4b49a; }
+  .category { margin-bottom: 2rem; }
+  .category-heading { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #2a2118; background: #e8dfc8; padding: 0.4rem 0.75rem; border-left: 4px solid #2a2118; margin-bottom: 0; }
+  .manual-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .manual-table th { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6b5a3e; padding: 0.4rem 0.75rem; text-align: left; border-bottom: 1px solid #c4b49a; background: #ede5d0; font-weight: 700; }
+  .manual-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #ddd4bb; vertical-align: top; line-height: 1.4; }
+  .manual-table tr:last-child td { border-bottom: none; }
+  .manual-table tr.available { background: #faf7f0; }
+  .manual-table tr.available:hover { background: #f0e8d0; }
+  .manual-table tr.unavailable { background: #f5f0e8; opacity: 0.55; }
+  .code { font-family: 'Courier New', monospace; font-size: 0.75rem; color: #5a4830; font-weight: 700; white-space: nowrap; }
+  .pdf-link { font-family: 'Courier New', monospace; font-size: 0.75rem; color: #2a2118; text-decoration: none; border-bottom: 1px solid #2a2118; }
+  .pdf-link:hover { background: #2a2118; color: #f5f0e8; }
+  .no-pdf { font-size: 0.7rem; color: #a89878; letter-spacing: 0.05em; }
+  .models { font-size: 0.75rem; color: #5a4830; }
+  .date-col { font-size: 0.75rem; color: #6b5a3e; white-space: nowrap; }
+  .footer { border-top: 2px solid #2a2118; padding: 1rem 2rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5a3e; margin-top: 2rem; }
+  @media (max-width: 600px) {
+    .manual-table th:nth-child(3), .manual-table td:nth-child(3) { display: none; }
+    .manual-table th:nth-child(4), .manual-table td:nth-child(4) { display: none; }
+    .site-title { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="site-title">The Land Cruiser Workshop</div>
+  <div class="site-subtitle">Toyota Land Cruiser — Factory Service Manual Archive</div>
+</header>
+
+<nav class="series-tabs">
+  <button class="tab active" onclick="showSeries('s60', this)">60 Series</button>
+  <button class="tab" onclick="showSeries('s80', this)">80 Series</button>
+  <button class="tab" onclick="showSeries('contact', this)">Contact</button>
+</nav>
+
+<main class="content">
+
+<!-- 60 SERIES -->
+<div class="series-panel active" id="s60">
+  <div class="series-intro">FJ60 · FJ62 · BJ60 · HJ60 · HJ61 &nbsp;|&nbsp; 1980&ndash;1990</div>
+
+  <div class="category">
+    <div class="category-heading">Chassis &amp; Body Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">36044E</td><td>Land Cruiser Chassis &amp; Body Repair Manual</td><td class="date-col">Aug 1980</td><td class="models">FJ40/43/45/60, BJ40–46/60, HJ47/60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36044E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">36262E</td><td>Land Cruiser (Heavy Duty) Chassis &amp; Body Repair Manual</td><td class="date-col">Oct 1984</td><td class="models">FJ62/70/73/75, BJ60/70/73/75, HJ60/75</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36262E.pdf">Download</a></td></tr>
+        <tr class="unavailable"><td class="code">36274A</td><td>Chassis &amp; Body Repair Manual Supplement</td><td class="date-col">Apr 1985</td><td class="models">FJ60</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="available"><td class="code">RM033E</td><td>Land Cruiser (Heavy Duty) Chassis &amp; Body Repair Manual</td><td class="date-col">Nov 1985</td><td class="models">FJ62/75, BJ74, HJ60/61/75</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM033E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM080U</td><td>Land Cruiser (FJ62) Full Repair Manual</td><td class="date-col">1988</td><td class="models">FJ62</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM080U.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Engine Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">36104E</td><td>2F Engine Repair Manual</td><td class="date-col">Aug 1980</td><td class="models">FJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36104E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">98126E</td><td>2F Engine Repair Manual (updated)</td><td class="date-col">1991</td><td class="models">FJ60/62</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/98126E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">36253E</td><td>3F Engine Repair Manual</td><td class="date-col">1984</td><td class="models">FJ60/62</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36253E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">36047E</td><td>B Series Engine Repair Manual</td><td class="date-col">—</td><td class="models">BJ60/70</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36047E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">36048E</td><td>2H Engine Repair Manual</td><td class="date-col">—</td><td class="models">HJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36048E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM012E</td><td>2H, 12H-T Engine Repair Manual</td><td class="date-col">1985</td><td class="models">HJ60/61/75</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM012E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM024E</td><td>11B, 13B, 13B-T Engine Repair Manual</td><td class="date-col">—</td><td class="models">BJ60/70</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM024E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM035E</td><td>B, 3B, 11B, 13B, 13B-T Engine Repair Manual</td><td class="date-col">Mar 1986</td><td class="models">BJ60/70/71/73/74/75</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM035E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM132E</td><td>B, 3B, 11B, 14B Engine Repair Manual</td><td class="date-col">1988</td><td class="models">BJ60/70/73/75</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM132E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM134E</td><td>3F-E Engine Repair Manual Supplement</td><td class="date-col">Aug 1988</td><td class="models">FJ62</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM134E.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Emission Control Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">ERM045E</td><td>3F-E Engine Emission Control Repair Manual</td><td class="date-col">—</td><td class="models">FJ62</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="available"><td class="code">36043E</td><td>2F Engine Emission Control Repair Manual</td><td class="date-col">1981</td><td class="models">FJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36043E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">36380E</td><td>3Y, 22R, 3F Engine Emission Control Repair Manual</td><td class="date-col">Nov 1984</td><td class="models">FJ62/70/73/75</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36380E.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Transmission Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">36237E</td><td>H41, H42, H50, H55F Manual Transmission Repair Manual</td><td class="date-col">1982</td><td class="models">FJ60, BJ60, HJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36237E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">36264E</td><td>A440F, A440L Automatic Transmission Repair Manual</td><td class="date-col">1984</td><td class="models">FJ62, HJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36264E.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Electrical Wiring Diagrams</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">36679A</td><td>Land Cruiser Electrical Wiring Diagram</td><td class="date-col">1983</td><td class="models">FJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36679A.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">36713F</td><td>Toyota Electrical Wiring Diagrams — All Commercial Vehicles</td><td class="date-col">1985</td><td class="models">All models incl. 60 series</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36713F.pdf">Download</a></td></tr>
+        <tr class="unavailable"><td class="code">36788A</td><td>Maintenance Procedures / Wiring Supplement</td><td class="date-col">1985</td><td class="models">FJ60</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Maintenance Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">36783A</td><td>Land Cruiser Maintenance Procedures Manual</td><td class="date-col">1984</td><td class="models">—</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="available"><td class="code">MM001U</td><td>Maintenance Procedures — 2F, 3B, 2H Engines</td><td class="date-col">1986</td><td class="models">FJ60, BJ60, HJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/MM001U.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Air Conditioner Installation Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">MAC-501</td><td>Land Cruiser Air Conditioner Installation Manual (All Season type)</td><td class="date-col">—</td><td class="models">FJ60RV</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/MAC-501.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">MAC-515</td><td>Land Cruiser Air Conditioner Installation Manual (All Season &amp; Boost Ventilator type)</td><td class="date-col">—</td><td class="models">HJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/MAC-515.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">MAC-1004</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">—</td><td class="models">FJ62, HJ60, HJ61</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/MAC-1004.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Air Conditioner Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">RAC-015</td><td>Land Cruiser Air Conditioning System Repair Manual (All Season type)</td><td class="date-col">—</td><td class="models">FJ60 series</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RAC-015.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Technical Specifications</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">608131</td><td>Toyota Technical Specifications — Land Cruiser Station Wagon 60 Series</td><td class="date-col">Aug 1986</td><td class="models">FJ62, HJ60, BJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/608131.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">New Car Features</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">35008</td><td>Land Cruiser New Car Features — FJ/BJ/HJ60 Series</td><td class="date-col">1980</td><td class="models">FJ60, BJ60, HJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/35008.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">NCF024U</td><td>1988 Model New Car Features</td><td class="date-col">1988</td><td class="models">Multiple Toyota models incl. Land Cruiser</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/NCF024U.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 80 SERIES -->
+<div class="series-panel" id="s80">
+  <div class="series-intro">FJ80 · FZJ80 · HZJ80 · HDJ80 &nbsp;|&nbsp; 1990&ndash;1998</div>
+
+  <div class="category">
+    <div class="category-heading">Chassis &amp; Body Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">RM184E</td><td>Land Cruiser Station Wagon Chassis &amp; Body Repair Manual</td><td class="date-col">Jan 1990</td><td class="models">FJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM184E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM290E</td><td>Chassis &amp; Body Repair Manual Supplement</td><td class="date-col">Jan 1992</td><td class="models">FJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM290E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM315E</td><td>Chassis &amp; Body Repair Manual Supplement</td><td class="date-col">Aug 1992</td><td class="models">FZJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM315E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM434E</td><td>Chassis &amp; Body Repair Manual Supplement</td><td class="date-col">Jan 1995</td><td class="models">FZJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM434E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM534E</td><td>Chassis &amp; Body Repair Manual Supplement</td><td class="date-col">May 1996</td><td class="models">FZJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM534E.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Body (Collision) Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">BRM019U</td><td>Fundamental Painting Procedures</td><td class="date-col">—</td><td class="models">General</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">BRM020U</td><td>Fundamental Body Repair Procedures</td><td class="date-col">—</td><td class="models">General</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="available"><td class="code">BRM050E</td><td>Land Cruiser Body Repair Manual</td><td class="date-col">Jan 1995</td><td class="models">FZJ80, HDJ80, HZJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/BRM050E.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Engine Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">36253E</td><td>3F Engine Repair Manual</td><td class="date-col">1984</td><td class="models">FJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/36253E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM134E</td><td>3F-E Engine Repair Manual Supplement</td><td class="date-col">Aug 1988</td><td class="models">FJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM134E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM172E</td><td>1PZ, 1HZ, 1HD-T Engine Repair Manual</td><td class="date-col">Feb 1990</td><td class="models">HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM172E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM283E</td><td>1FZ-F Engine Repair Manual</td><td class="date-col">Jan 1992</td><td class="models">FZJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM283E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM321E</td><td>1FZ-F, 1FZ-FE Engine Repair Manual</td><td class="date-col">Aug 1992</td><td class="models">FZJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM321E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM436E</td><td>1FZ-FE Engine Repair Manual Supplement</td><td class="date-col">Jan 1995</td><td class="models">FZJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM436E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM437E</td><td>1HD-FT Engine Repair Manual</td><td class="date-col">Jan 1995</td><td class="models">HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM437E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM523E</td><td>1HD-FT Engine Repair Manual Supplement</td><td class="date-col">May 1996</td><td class="models">HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM523E.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Emission Control Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">ERM045E</td><td>3F-E Engine Emission Control Repair Manual</td><td class="date-col">—</td><td class="models">FJ80</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="available"><td class="code">ERM068E</td><td>3F, 3F-E Engine Emission Control Repair Manual</td><td class="date-col">Jan 1990</td><td class="models">FJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/ERM068E.pdf">Download</a></td></tr>
+        <tr class="unavailable"><td class="code">ERM086E</td><td>1FZ-F Engine Emission Control Repair Manual</td><td class="date-col">—</td><td class="models">FZJ80</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="available"><td class="code">ERM096E</td><td>1FZ-FE Engine Emission Control Repair Manual</td><td class="date-col">Aug 1992</td><td class="models">FZJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/ERM096E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">ERM111E</td><td>1HD-FT Engine Emission Control Repair Manual</td><td class="date-col">Jan 1995</td><td class="models">HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/ERM111E.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Transmission Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">RM188E</td><td>A440F, A441L, A442F Automatic Transmission Repair Manual</td><td class="date-col">Mar 1990</td><td class="models">FJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM188E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM314E</td><td>A442F Automatic Transmission Repair Manual</td><td class="date-col">Aug 1992</td><td class="models">FZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM314E.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">RM314E Supp</td><td>A442F Automatic Transmission Repair Manual Supplement</td><td class="date-col">Jan 1995</td><td class="models">FZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/RM314E-Supp.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Transmission Hydraulic Circuit Diagrams</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">ATH021F</td><td>A440F, A442F Automatic Transmission Hydraulic Circuit Diagrams</td><td class="date-col">Jan 1990</td><td class="models">FJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/ATH021F.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">ATH031F</td><td>A442F Automatic Transmission Hydraulic Circuit Diagrams</td><td class="date-col">Sep 1992</td><td class="models">FZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/ATH031F.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Electrical Wiring Diagrams</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">EWD090F</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram</td><td class="date-col">Jan 1990</td><td class="models">FJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/EWD090F.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">EWD114F</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram Supplement</td><td class="date-col">Dec 1990</td><td class="models">FJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/EWD114F.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">EWD169F</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram</td><td class="date-col">Aug 1992</td><td class="models">FZJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/EWD169F.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">EWD232F</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram Supplement</td><td class="date-col">Jan 1995</td><td class="models">FZJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/EWD232F.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">EWD272F</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram Supplement</td><td class="date-col">Aug 1996</td><td class="models">FZJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/EWD272F.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Air Conditioner Installation Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">MAC-1019</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">—</td><td class="models">HZJ80R, HDJ80R, FJ80R</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/MAC-1019.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">MAC-1032</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">—</td><td class="models">FZJ80R (1FZ-FE)</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/MAC-1032.pdf">Download</a></td></tr>
+        <tr class="available"><td class="code">MAC-1067</td><td>Land Cruiser Air Conditioner Installation Manual (Australian spec)</td><td class="date-col">—</td><td class="models">HZJ80R (1HZ)</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/MAC-1067.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">New Car Features</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="available"><td class="code">NCF064E</td><td>Land Cruiser Station Wagon New Car Features</td><td class="date-col">Jan 1990</td><td class="models">FJ80, HZJ80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/NCF064E.pdf">Download</a></td></tr>
+        <tr class="unavailable"><td class="code">NCF-LAN-1092</td><td>Land Cruiser New Car Features Supplement (Australian)</td><td class="date-col">Oct 1992</td><td class="models">FZJ80, HZJ80, HDJ80</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="available"><td class="code">AANCF004</td><td>Land Cruiser New Car Features Supplement (Australian)</td><td class="date-col">Jan 1995</td><td class="models">FZJ75/80, HZJ75/80, HDJ80</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/80/AANCF004.pdf">Download</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 100 SERIES -->
+<div class="series-panel" id="s100">
+  <div class="series-intro">UZJ100 · FZJ100/105 · HZJ105 · HDJ100 &mdash; 1998&ndash;2007</div>
+
+  <div class="category">
+    <div class="category-heading">Chassis &amp; Body Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">RM616E Vol.1</td><td>Land Cruiser Chassis &amp; Body Repair Manual Vol.1</td><td class="date-col">Jan 1998</td><td class="models">UZJ100, FZJ100/105, HZJ105, HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM616E Vol.2</td><td>Land Cruiser Chassis &amp; Body Repair Manual Vol.2</td><td class="date-col">Jan 1998</td><td class="models">UZJ100, FZJ100/105, HZJ105, HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM793E</td><td>Land Cruiser Repair Manual Supplement</td><td class="date-col">—</td><td class="models">—</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Body (Collision) Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">BRM019U</td><td>Fundamental Painting Procedures</td><td class="date-col">—</td><td class="models">General</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">BRM020U</td><td>Fundamental Body Repair Procedures</td><td class="date-col">—</td><td class="models">General</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">BRM080E</td><td>Land Cruiser Body Repair Manual</td><td class="date-col">1998</td><td class="models">UZJ100, FZJ100/105, HZJ105, HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Engine Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">RM321E</td><td>1FZ-F, 1FZ-FE Engine Repair Manual</td><td class="date-col">Aug 1992</td><td class="models">FZJ105</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM436E</td><td>1FZ-FE Engine Repair Manual Supplement</td><td class="date-col">Jan 1995</td><td class="models">FZJ105</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM617E</td><td>1HZ, 1HD-T, 1HD-FTE Engine Repair Manual</td><td class="date-col">Jan 1998</td><td class="models">HZJ105, HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM630E</td><td>2UZ-FE Engine Repair Manual</td><td class="date-col">Jan 1998</td><td class="models">UZJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM895E</td><td>2UZ-FE Engine Repair Manual Supplement</td><td class="date-col">—</td><td class="models">UZJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM896E</td><td>1HD-FTE Engine Repair Manual Supplement</td><td class="date-col">Aug 2001</td><td class="models">HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM1113E</td><td>2UZ-FE Engine Repair Manual Supplement</td><td class="date-col">—</td><td class="models">UZJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM1179E</td><td>1HD-FTV Engine Repair Manual Supplement</td><td class="date-col">—</td><td class="models">HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Transmission Repair Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">RM314E</td><td>A442F Automatic Transmission Repair Manual</td><td class="date-col">Aug 1992</td><td class="models">HZJ105, HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM314E Supp</td><td>A442F Automatic Transmission Repair Manual Supplement</td><td class="date-col">Jan 1995</td><td class="models">HZJ105, HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM528E</td><td>A343F Automatic Transmission Repair Manual</td><td class="date-col">—</td><td class="models">UZJ100, FZJ105</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">RM999U</td><td>A750E, A750F Automatic Transmission Repair Manual</td><td class="date-col">—</td><td class="models">UZJ100 (late)</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Electrical Wiring Diagrams</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">EWD342F</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram</td><td class="date-col">Jan 1998</td><td class="models">UZJ100, FZJ100/105, HZJ105, HDJ100</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">EWD512E</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram Supplement</td><td class="date-col">—</td><td class="models">—</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">EWD575E</td><td>Land Cruiser Station Wagon Electrical Wiring Diagram Supplement</td><td class="date-col">—</td><td class="models">—</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">New Car Features</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">NCF229E</td><td>New Car Features Supplement</td><td class="date-col">Jul 2002</td><td class="models">LC 100 &amp; 70 series + other Toyota models</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">NCF258E</td><td>New Car Features Supplement</td><td class="date-col">Jul 2003</td><td class="models">LC 100 &amp; 70 series + other Toyota models</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Air Conditioner Installation Manuals</div>
+    <table class="manual-table">
+      <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+      <tbody>
+        <tr class="unavailable"><td class="code">MAC-1098</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">Jan 1998</td><td class="models">FZJ105R (1FZ-FE, RHD, Aus)</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">MAC-1099</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">1998</td><td class="models">HZJ105R (1HZ, RHD, Aus)</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">MAC-A516</td><td>General Information / After Installation Manual</td><td class="date-col">—</td><td class="models">All MAC-A series</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">MAC-A526</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">Aug 2000</td><td class="models">HDJ100R (1HD-FTE, RHD, Aus)</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">MAC-A609</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">Aug 2002</td><td class="models">UZJ100R (2UZ-FE, RHD, Aus)</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">MAC-A612</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">Aug 2002</td><td class="models">HZJ100R (1HZ, RHD, Aus)</td><td><span class="no-pdf">Not available</span></td></tr>
+        <tr class="unavailable"><td class="code">AAAMC-47</td><td>Land Cruiser Air Conditioner Installation Manual</td><td class="date-col">Aug 2002</td><td class="models">UZJ100R (2UZ-FE, RHD, Aus)</td><td><span class="no-pdf">Not available</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="series-panel" id="contact">
+  <div class="series-intro">About this archive &nbsp;|&nbsp; Get in touch</div>
+
+  <div class="category">
+    <div class="category-heading">About</div>
+    <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
+      <p style="margin-bottom: 1rem;">The Land Cruiser Workshop is a free archive of Toyota Land Cruiser factory service manuals — the original workshop documentation produced by Toyota for dealership technicians and engineers.</p>
+      <p style="margin-bottom: 1rem;">The focus is on the 60 Series (1980–1990) and 80 Series (1990–1998), with coverage spanning chassis &amp; body repair, engines, transmissions, electrical wiring, emissions, and air conditioning.</p>
+      <p>All manuals are provided for personal research, restoration, and maintenance use.</p>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Contact</div>
+    <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
+      <p style="margin-bottom: 1rem;">For questions about the archive or its contents, get in touch at:</p>
+      <p style="margin-bottom: 1.5rem;"><a href="mailto:contact@landcruiserworkshop.com" style="font-family: 'Courier New', monospace; font-size: 0.85rem; color: #2a2118; border-bottom: 1px solid #2a2118; text-decoration: none;">contact@landcruiserworkshop.com</a></p>
+      <p style="margin-bottom: 1rem;">If you have a copy of one of the manuals listed here as unavailable, or if you have a manual that isn't listed at all, please get in touch — contributions to the archive are very welcome.</p>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  Factory service manuals for personal research and restoration use &mdash; contact@landcruiserworkshop.com
+</footer>
+
+<script>
+function showSeries(id, btn) {
+  document.querySelectorAll('.series-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>
