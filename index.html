@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Land Cruiser Workshop</title>
+<meta name="description" content="Archive of Toyota Land Cruiser Factory Service Manuals — covers 80 Series and 60 Series.">
+<meta name="keywords" content="Toyota Land Cruiser, factory service manual, workshop manual, 60 series, 80 series, FJ60, FJ62, FJ80, FZJ80, HZJ80, HDJ80, repair manual">
+<meta property="og:title" content="The Land Cruiser Workshop">
+<meta property="og:description" content="Archive of Toyota Land Cruiser Factory Service Manuals — covers 80 Series and 60 Series.">
+<meta property="og:url" content="https://landcruiserworkshop.com">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #f5f0e8; font-family: 'Courier New', Courier, monospace; color: #2a2118; }
@@ -20,9 +25,14 @@
   .series-intro { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5a3e; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #c4b49a; }
   .category { margin-bottom: 2rem; }
   .category-heading { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #2a2118; background: #e8dfc8; padding: 0.4rem 0.75rem; border-left: 4px solid #2a2118; margin-bottom: 0; }
-  .manual-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .manual-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; table-layout: fixed; }
   .manual-table th { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6b5a3e; padding: 0.4rem 0.75rem; text-align: left; border-bottom: 1px solid #c4b49a; background: #ede5d0; font-weight: 700; }
-  .manual-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #ddd4bb; vertical-align: top; line-height: 1.4; }
+  .manual-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #ddd4bb; vertical-align: top; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; }
+  .manual-table th:nth-child(1), .manual-table td:nth-child(1) { width: 12%; }
+  .manual-table th:nth-child(2), .manual-table td:nth-child(2) { width: 46%; }
+  .manual-table th:nth-child(3), .manual-table td:nth-child(3) { width: 10%; }
+  .manual-table th:nth-child(4), .manual-table td:nth-child(4) { width: 22%; }
+  .manual-table th:nth-child(5), .manual-table td:nth-child(5) { width: 10%; }
   .manual-table tr:last-child td { border-bottom: none; }
   .manual-table tr.available { background: #faf7f0; }
   .manual-table tr.available:hover { background: #f0e8d0; }
