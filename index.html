@@ -44,9 +44,12 @@
   .models { font-size: 0.75rem; color: #5a4830; }
   .date-col { font-size: 0.75rem; color: #6b5a3e; white-space: nowrap; }
   .footer { border-top: 2px solid #2a2118; padding: 1rem 2rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5a3e; margin-top: 2rem; }
-  @media (max-width: 600px) {
+  @media (max-width: 600px) and (orientation: portrait) {
+    .manual-table th:nth-child(2), .manual-table td:nth-child(2) { display: none; }
     .manual-table th:nth-child(3), .manual-table td:nth-child(3) { display: none; }
     .manual-table th:nth-child(4), .manual-table td:nth-child(4) { display: none; }
+    .manual-table th:nth-child(1), .manual-table td:nth-child(1) { width: 60%; }
+    .manual-table th:nth-child(5), .manual-table td:nth-child(5) { width: 40%; }
     .site-title { font-size: 1.4rem; }
   }
 </style>
