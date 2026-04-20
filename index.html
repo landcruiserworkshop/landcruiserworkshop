@@ -45,7 +45,24 @@
   .models { font-size: 0.75rem; color: #5a4830; }
   .date-col { font-size: 0.75rem; color: #6b5a3e; white-space: nowrap; }
   .footer { border-top: 2px solid #2a2118; padding: 1rem 2rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5a3e; margin-top: 2rem; }
-  @media (max-width: 600px) and (orientation: portrait) {
+  .search-bar-wrap { margin-bottom: 1.5rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+  .search-input { font-family: 'Courier New', monospace; font-size: 0.85rem; padding: 0.5rem 0.75rem; border: 1px solid #2a2118; background: #faf7f0; color: #2a2118; width: 100%; max-width: 400px; outline: none; }
+  .search-input:focus { background: #fff; }
+  .filter-wrap { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: flex-start; }
+  .filter-dropdown { position: relative; display: inline-block; }
+  .filter-btn { font-family: 'Courier New', monospace; font-size: 0.75rem; padding: 0.35rem 0.75rem; border: 1px solid #2a2118; background: #faf7f0; color: #2a2118; cursor: pointer; letter-spacing: 0.05em; user-select: none; white-space: nowrap; }
+  .filter-btn.has-selection { background: #2a2118; color: #f5f0e8; }
+  .filter-panel { display: none; position: absolute; top: 100%; left: 0; z-index: 100; background: #faf7f0; border: 1px solid #2a2118; min-width: 200px; padding: 0.5rem 0; }
+  .filter-panel.open { display: block; }
+  .filter-option { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.75rem; font-family: 'Courier New', monospace; font-size: 0.75rem; cursor: pointer; }
+  .filter-option:hover { background: #e8dfc8; }
+  .filter-option input[type="checkbox"] { cursor: pointer; accent-color: #2a2118; }
+  .filter-clear { font-family: 'Courier New', monospace; font-size: 0.65rem; color: #6b5a3e; padding: 0.3rem 0.75rem; border-top: 1px solid #c4b49a; margin-top: 0.25rem; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; }
+  .filter-clear:hover { color: #2a2118; }
+  .search-results-count { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6b5a3e; margin-bottom: 1.5rem; }
+  .search-section { margin-bottom: 2rem; }
+  .search-section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #2a2118; background: #e8dfc8; padding: 0.4rem 0.75rem; border-left: 4px solid #2a2118; margin-bottom: 0; }
+  .no-results { font-size: 0.82rem; color: #6b5a3e; padding: 2rem 0; }
     .manual-table th:nth-child(2), .manual-table td:nth-child(2) { display: none; }
     .manual-table th:nth-child(3), .manual-table td:nth-child(3) { display: none; }
     .manual-table th:nth-child(4), .manual-table td:nth-child(4) { display: none; }
@@ -63,7 +80,8 @@
 </header>
 
 <nav class="series-tabs">
-  <button class="tab active" onclick="showSeries('s60', this)">60 Series</button>
+  <button class="tab active" onclick="showSeries('search', this)">Search</button>
+  <button class="tab" onclick="showSeries('s60', this)">60 Series</button>
   <button class="tab" onclick="showSeries('s80', this)">80 Series</button>
   <button class="tab" onclick="showSeries('contact', this)">Contact</button>
 </nav>
@@ -71,7 +89,7 @@
 <main class="content">
 
 <!-- 60 SERIES -->
-<div class="series-panel active" id="s60">
+<div class="series-panel" id="s60">
   <div class="series-intro">FJ60 · FJ62 · BJ60 · HJ60 · HJ61 &nbsp;|&nbsp; 1980&ndash;1990</div>
 
   <div class="category">
@@ -423,6 +441,97 @@
 
 </div>
 
+<!-- SEARCH -->
+<div class="series-panel active" id="search">
+  <div class="series-intro">Search all manuals across 60 &amp; 80 Series</div>
+  <div class="search-bar-wrap">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search by code, title, date, model..." oninput="runSearch()">
+  </div>
+  <div class="filter-wrap">
+
+    <div class="filter-dropdown">
+      <div class="filter-btn" id="btn-series" onclick="togglePanel('series')">Series ▾</div>
+      <div class="filter-panel" id="panel-series">
+        <label class="filter-option"><input type="checkbox" value="60 Series" onchange="runSearch()"> 60 Series</label>
+        <label class="filter-option"><input type="checkbox" value="80 Series" onchange="runSearch()"> 80 Series</label>
+        <div class="filter-clear" onclick="clearFilter('panel-series')">Clear</div>
+      </div>
+    </div>
+
+    <div class="filter-dropdown">
+      <div class="filter-btn" id="btn-section" onclick="togglePanel('section')">Section ▾</div>
+      <div class="filter-panel" id="panel-section">
+        <label class="filter-option"><input type="checkbox" value="Chassis" onchange="runSearch()"> Chassis &amp; Body Repair Manuals</label>
+        <label class="filter-option"><input type="checkbox" value="Body (Collision)" onchange="runSearch()"> Body (Collision) Repair Manuals</label>
+        <label class="filter-option"><input type="checkbox" value="Engine Repair" onchange="runSearch()"> Engine Repair Manuals</label>
+        <label class="filter-option"><input type="checkbox" value="Emission" onchange="runSearch()"> Emission Control Repair Manuals</label>
+        <label class="filter-option"><input type="checkbox" value="Transmission" onchange="runSearch()"> Transmission Repair Manuals</label>
+        <label class="filter-option"><input type="checkbox" value="Electrical" onchange="runSearch()"> Electrical Wiring Diagrams</label>
+        <label class="filter-option"><input type="checkbox" value="Maintenance" onchange="runSearch()"> Maintenance Manuals</label>
+        <label class="filter-option"><input type="checkbox" value="Air Conditioner" onchange="runSearch()"> Air Conditioner Manuals</label>
+        <label class="filter-option"><input type="checkbox" value="New Car" onchange="runSearch()"> New Car Features</label>
+        <label class="filter-option"><input type="checkbox" value="Technical" onchange="runSearch()"> Technical Specifications</label>
+        <div class="filter-clear" onclick="clearFilter('panel-section')">Clear</div>
+      </div>
+    </div>
+
+    <div class="filter-dropdown">
+      <div class="filter-btn" id="btn-year" onclick="togglePanel('year')">Year ▾</div>
+      <div class="filter-panel" id="panel-year">
+        <label class="filter-option"><input type="checkbox" value="1974" onchange="runSearch()"> 1974</label>
+        <label class="filter-option"><input type="checkbox" value="1980" onchange="runSearch()"> 1980</label>
+        <label class="filter-option"><input type="checkbox" value="1981" onchange="runSearch()"> 1981</label>
+        <label class="filter-option"><input type="checkbox" value="1982" onchange="runSearch()"> 1982</label>
+        <label class="filter-option"><input type="checkbox" value="1983" onchange="runSearch()"> 1983</label>
+        <label class="filter-option"><input type="checkbox" value="1984" onchange="runSearch()"> 1984</label>
+        <label class="filter-option"><input type="checkbox" value="1985" onchange="runSearch()"> 1985</label>
+        <label class="filter-option"><input type="checkbox" value="1986" onchange="runSearch()"> 1986</label>
+        <label class="filter-option"><input type="checkbox" value="1987" onchange="runSearch()"> 1987</label>
+        <label class="filter-option"><input type="checkbox" value="1988" onchange="runSearch()"> 1988</label>
+        <label class="filter-option"><input type="checkbox" value="1989" onchange="runSearch()"> 1989</label>
+        <label class="filter-option"><input type="checkbox" value="1990" onchange="runSearch()"> 1990</label>
+        <label class="filter-option"><input type="checkbox" value="1991" onchange="runSearch()"> 1991</label>
+        <label class="filter-option"><input type="checkbox" value="1992" onchange="runSearch()"> 1992</label>
+        <label class="filter-option"><input type="checkbox" value="1993" onchange="runSearch()"> 1993</label>
+        <label class="filter-option"><input type="checkbox" value="1994" onchange="runSearch()"> 1994</label>
+        <label class="filter-option"><input type="checkbox" value="1995" onchange="runSearch()"> 1995</label>
+        <label class="filter-option"><input type="checkbox" value="1996" onchange="runSearch()"> 1996</label>
+        <label class="filter-option"><input type="checkbox" value="1997" onchange="runSearch()"> 1997</label>
+        <label class="filter-option"><input type="checkbox" value="1998" onchange="runSearch()"> 1998</label>
+        <div class="filter-clear" onclick="clearFilter('panel-year')">Clear</div>
+      </div>
+    </div>
+
+    <div class="filter-dropdown">
+      <div class="filter-btn" id="btn-model" onclick="togglePanel('model')">Model ▾</div>
+      <div class="filter-panel" id="panel-model">
+        <label class="filter-option"><input type="checkbox" value="FJ60" onchange="runSearch()"> FJ60</label>
+        <label class="filter-option"><input type="checkbox" value="FJ62" onchange="runSearch()"> FJ62</label>
+        <label class="filter-option"><input type="checkbox" value="BJ60" onchange="runSearch()"> BJ60</label>
+        <label class="filter-option"><input type="checkbox" value="HJ60" onchange="runSearch()"> HJ60</label>
+        <label class="filter-option"><input type="checkbox" value="HJ61" onchange="runSearch()"> HJ61</label>
+        <label class="filter-option"><input type="checkbox" value="FJ80" onchange="runSearch()"> FJ80</label>
+        <label class="filter-option"><input type="checkbox" value="FZJ80" onchange="runSearch()"> FZJ80</label>
+        <label class="filter-option"><input type="checkbox" value="HZJ80" onchange="runSearch()"> HZJ80</label>
+        <label class="filter-option"><input type="checkbox" value="HDJ80" onchange="runSearch()"> HDJ80</label>
+        <div class="filter-clear" onclick="clearFilter('panel-model')">Clear</div>
+      </div>
+    </div>
+
+    <div class="filter-dropdown">
+      <div class="filter-btn" id="btn-avail" onclick="togglePanel('avail')">Availability ▾</div>
+      <div class="filter-panel" id="panel-avail">
+        <label class="filter-option"><input type="checkbox" value="available" onchange="runSearch()"> Available</label>
+        <label class="filter-option"><input type="checkbox" value="unavailable" onchange="runSearch()"> Not available</label>
+        <div class="filter-clear" onclick="clearFilter('panel-avail')">Clear</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="search-results-count" id="resultsCount"></div>
+  <div id="searchResults"></div>
+</div>
+
 </main>
 
 <footer class="footer">
@@ -435,7 +544,134 @@ function showSeries(id, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
+  if (id === 'search') runSearch();
 }
+
+function togglePanel(name) {
+  const panel = document.getElementById('panel-' + name);
+  const allPanels = document.querySelectorAll('.filter-panel');
+  allPanels.forEach(p => { if (p !== panel) p.classList.remove('open'); });
+  panel.classList.toggle('open');
+}
+
+function clearFilter(panelId) {
+  document.querySelectorAll('#' + panelId + ' input[type="checkbox"]').forEach(cb => cb.checked = false);
+  updateBtnState(panelId.replace('panel-', ''));
+  runSearch();
+}
+
+function getChecked(panelId) {
+  return Array.from(document.querySelectorAll('#' + panelId + ' input[type="checkbox"]:checked')).map(cb => cb.value);
+}
+
+function updateBtnState(name) {
+  const checked = getChecked('panel-' + name);
+  const btn = document.getElementById('btn-' + name);
+  btn.classList.toggle('has-selection', checked.length > 0);
+}
+
+document.addEventListener('change', e => {
+  if (e.target.type === 'checkbox') {
+    const panel = e.target.closest('.filter-panel');
+    if (panel) {
+      const name = panel.id.replace('panel-', '');
+      updateBtnState(name);
+    }
+  }
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.filter-dropdown')) {
+    document.querySelectorAll('.filter-panel').forEach(p => p.classList.remove('open'));
+  }
+});
+
+function buildManualData() {
+  const data = [];
+  ['s60','s80'].forEach(seriesId => {
+    const seriesLabel = seriesId === 's60' ? '60 Series' : '80 Series';
+    const panel = document.getElementById(seriesId);
+    const categories = panel.querySelectorAll('.category');
+    categories.forEach(cat => {
+      const section = cat.querySelector('.category-heading').textContent.trim();
+      const rows = cat.querySelectorAll('tr.available, tr.unavailable');
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length < 5) return;
+        const code = cells[0].textContent.trim();
+        const title = cells[1].textContent.trim();
+        const date = cells[2].textContent.trim();
+        const models = cells[3].textContent.trim();
+        const pdfCell = cells[4];
+        const isAvailable = row.classList.contains('available');
+        const pdfHTML = pdfCell.innerHTML;
+        data.push({ series: seriesLabel, seriesId, section, code, title, date, models, isAvailable, pdfHTML });
+      });
+    });
+  });
+  return data;
+}
+
+function runSearch() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const selSeries = getChecked('panel-series');
+  const selSection = getChecked('panel-section');
+  const selYear = getChecked('panel-year');
+  const selModel = getChecked('panel-model');
+  const selAvail = getChecked('panel-avail');
+
+  const data = buildManualData();
+
+  const filtered = data.filter(row => {
+    if (selSeries.length && !selSeries.includes(row.series)) return false;
+    if (selSection.length && !selSection.some(s => row.section.toLowerCase().includes(s.toLowerCase()))) return false;
+    if (selYear.length && !selYear.some(y => row.date.includes(y))) return false;
+    if (selModel.length && !selModel.some(m => row.models.includes(m))) return false;
+    if (selAvail.length) {
+      if (selAvail.includes('available') && !selAvail.includes('unavailable') && !row.isAvailable) return false;
+      if (selAvail.includes('unavailable') && !selAvail.includes('available') && row.isAvailable) return false;
+    }
+    if (query) {
+      const haystack = [row.series, row.section, row.code, row.title, row.date, row.models].join(' ').toLowerCase();
+      if (!haystack.includes(query)) return false;
+    }
+    return true;
+  });
+
+  const resultsDiv = document.getElementById('searchResults');
+  const countDiv = document.getElementById('resultsCount');
+
+  if (filtered.length === 0) {
+    countDiv.textContent = 'No results found';
+    resultsDiv.innerHTML = '<p class="no-results">No manuals matched your search. Try different keywords or filters.</p>';
+    return;
+  }
+
+  countDiv.textContent = filtered.length + ' result' + (filtered.length !== 1 ? 's' : '');
+
+  const groups = {};
+  filtered.forEach(row => {
+    const key = row.series + '||' + row.section;
+    if (!groups[key]) groups[key] = { series: row.series, section: row.section, rows: [] };
+    groups[key].rows.push(row);
+  });
+
+  let html = '';
+  Object.values(groups).forEach(group => {
+    html += `<div class="search-section">`;
+    html += `<div class="search-section-label">${group.series} &mdash; ${group.section}</div>`;
+    html += `<table class="manual-table"><thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead><tbody>`;
+    group.rows.forEach(row => {
+      const cls = row.isAvailable ? 'available' : 'unavailable';
+      html += `<tr class="${cls}"><td class="code">${row.code}</td><td>${row.title}</td><td class="date-col">${row.date}</td><td class="models">${row.models}</td><td>${row.pdfHTML}</td></tr>`;
+    });
+    html += `</tbody></table></div>`;
+  });
+
+  resultsDiv.innerHTML = html;
+}
+
+window.addEventListener('DOMContentLoaded', runSearch);
 </script>
 
 </body>
