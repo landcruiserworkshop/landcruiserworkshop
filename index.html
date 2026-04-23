@@ -107,7 +107,7 @@
 
 <!-- 60 SERIES -->
 <div class="series-panel" id="s60">
-  <div class="series-intro">28/32 FSMs &nbsp;|&nbsp; 1980&ndash;1990 &nbsp;|&nbsp; FJ60 · FJ62 · BJ60 · HJ60 · HJ61</div>
+  <div class="series-intro" id="intro-s60"><span id="count-s60"></span> &nbsp;|&nbsp; 1980&ndash;1990 &nbsp;|&nbsp; FJ60 · FJ62 · BJ60 · HJ60 · HJ61</div>
 
   <div class="category">
     <div class="category-heading">Chassis &amp; Body Repair Manuals</div>
@@ -118,6 +118,7 @@
         <tr class="available"><td class="code">36262E</td><td>Land Cruiser (Heavy Duty) Chassis &amp; Body Repair Manual</td><td class="date-col">Oct 1984</td><td class="models">FJ62, BJ60, HJ60</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/36262E.pdf">Download</a></td></tr>
         <tr class="unavailable"><td class="code">36274A</td><td>Land Cruiser Chassis &amp; Body Repair Manual Supplement</td><td class="date-col">—</td><td class="models">—</td><td><span class="no-pdf">N/A</span></td></tr>
         <tr class="available"><td class="code">RM033E</td><td>Land Cruiser (Heavy Duty) Chassis &amp; Body Repair Manual</td><td class="date-col">Nov 1985</td><td class="models">FJ62, HJ60, HJ61</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM033E.pdf">Download</a></td></tr>
+        <tr class="unavailable"><td class="code">RM096E</td><td>Land Cruiser Chassis &amp; Body Repair Manual Supplement</td><td class="date-col">Aug 1987</td><td class="models">FJ62, BJ60, HJ60, HJ61</td><td><span class="no-pdf">N/A</span></td></tr>
         <tr class="available"><td class="code">RM080U</td><td>Land Cruiser Repair Manual</td><td class="date-col">1988</td><td class="models">FJ62</td><td><a class="pdf-link" href="https://files.landcruiserworkshop.com/60/RM080U.pdf">Download</a></td></tr>
       </tbody>
     </table>
@@ -216,7 +217,7 @@
 
 <!-- 80 SERIES -->
 <div class="series-panel" id="s80">
-  <div class="series-intro">32/37 FSMs &nbsp;|&nbsp; 1990&ndash;1998 &nbsp;|&nbsp; FJ80 · FZJ80 · HZJ80 · HDJ80</div>
+  <div class="series-intro" id="intro-s80"><span id="count-s80"></span> &nbsp;|&nbsp; 1990&ndash;1998 &nbsp;|&nbsp; FJ80 · FZJ80 · HZJ80 · HDJ80</div>
 
   <div class="category">
     <div class="category-heading">Chassis &amp; Body Repair Manuals</div>
@@ -445,10 +446,7 @@
       <p style="margin-bottom: 1rem;">For questions about the archive or its contents, get in touch at:</p>
       <p style="margin-bottom: 1.5rem;"><a href="mailto:contact@landcruiserworkshop.com" style="font-family: 'Courier New', monospace; font-size: 0.85rem; color: #2a2118; border-bottom: 1px solid #2a2118; text-decoration: none;">contact@landcruiserworkshop.com</a></p>
       <p style="margin-bottom: 1rem;">If you have a copy of one of the manuals listed below as unavailable, or if you have a manual that isn't listed at all, please get in touch — contributions to the archive are very welcome.</p>
-      <p style="margin-bottom: 0.5rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #6b5a3e;">60 Series</p>
-      <p style="margin-bottom: 1rem;"><span class="code">36274A</span> &nbsp;&middot;&nbsp; <span class="code">36783A</span> &nbsp;&middot;&nbsp; <span class="code">36788A</span> &nbsp;&middot;&nbsp; <span class="code">ERM045E</span></p>
-      <p style="margin-bottom: 0.5rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #6b5a3e;">80 Series</p>
-      <p><span class="code">BRM019U</span> &nbsp;&middot;&nbsp; <span class="code">BRM020U</span> &nbsp;&middot;&nbsp; <span class="code">ERM045E</span> &nbsp;&middot;&nbsp; <span class="code">ERM086E</span> &nbsp;&middot;&nbsp; <span class="code">NCF-LAN-1092</span></p>
+      <div id="missing-manuals"></div>
     </div>
   </div>
     <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
@@ -690,7 +688,32 @@ function runSearch() {
   resultsDiv.innerHTML = html;
 }
 
-window.addEventListener('DOMContentLoaded', runSearch);
+window.addEventListener('DOMContentLoaded', () => {
+  ['s60', 's80'].forEach(id => {
+    const panel = document.getElementById(id);
+    const available = panel.querySelectorAll('tr.available').length;
+    const total = panel.querySelectorAll('tr.available, tr.unavailable').length;
+    document.getElementById('count-' + id).textContent = available + '/' + total + ' FSMs';
+  });
+
+  // Build missing manuals list
+  const container = document.getElementById('missing-manuals');
+  let html = '';
+  [['s60', '60 Series'], ['s80', '80 Series']].forEach(([id, label]) => {
+    const panel = document.getElementById(id);
+    const missing = Array.from(panel.querySelectorAll('tr.unavailable')).map(row => {
+      const cells = row.querySelectorAll('td');
+      return cells.length ? cells[0].textContent.trim() : null;
+    }).filter(Boolean);
+    if (missing.length) {
+      html += `<p style="margin-bottom: 0.5rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #6b5a3e;">${label}</p>`;
+      html += `<p style="margin-bottom: 1rem;">${missing.map(c => `<span class="code">${c}</span>`).join(' &nbsp;&middot;&nbsp; ')}</p>`;
+    }
+  });
+  container.innerHTML = html;
+
+  runSearch();
+});
 </script>
 
 </body>
