@@ -14,7 +14,7 @@
   .intro { font-size: 0.82rem; color: #6b5a3e; margin-bottom: 2rem; padding: 0.75rem; background: #ede5d0; border-left: 4px solid #2a2118; line-height: 1.7; }
 
   /* Series tabs (outer) */
-  .series-tabs { display: flex; border-bottom: 2px solid #2a2118; background: #f5f0e8; margin-bottom: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .series-tabs { display: flex; border-bottom: 2px solid #2a2118; background: #f5f0e8; margin-bottom: 0; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain; }
   .series-tabs::-webkit-scrollbar { display: none; }
   .series-tab { padding: 0.6rem 1.5rem; font-family: 'Courier New', monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border: none; background: none; color: #6b5a3e; border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; flex-shrink: 0; }
   .series-tab.active { color: #2a2118; border-bottom-color: #2a2118; }
@@ -61,6 +61,7 @@
   <button class="series-tab active" onclick="showSeries('s40', this)">40 Series</button>
   <button class="series-tab" onclick="showSeries('s50', this)">50 Series</button>
   <button class="series-tab" onclick="showSeries('s60', this)">60 Series</button>
+  <button class="series-tab" onclick="showSeries('s70', this)">70 Series</button>
   <button class="series-tab" onclick="showSeries('s80', this)">80 Series</button>
   <button class="series-tab" onclick="showSeries('s100', this)">100 Series</button>
 </nav>
@@ -365,6 +366,174 @@
 <hr>
 
 <!-- 80 EU/AUS -->
+  </div>
+</div>
+
+<!-- 70 SERIES -->
+<div class="series-panel" id="s70">
+  <div class="market-tabs">
+    <button class="market-tab active" onclick="showMarket('s70', 'eu', this)">Europe / Australia</button>
+  </div>
+  <div class="market-panel active" id="s70-eu">
+    <div class="status">Status: Researching &nbsp;|&nbsp; FJ70/73/75 · BJ70/71/73/74/75 · HJ75 · RJ70/73/77 · LJ70/71/72/73/77/79 · PZJ70/73/75/77 · HZJ70/71/73/74/75/77/79 · KZJ70/73/77 · FZJ70/71/73/74/75/78/79 · HDJ78/79 — 1984–2007</div>
+
+<h3>Chassis &amp; Body Repair Manuals</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>36261E</td><td>Land Cruiser (Light Duty) Chassis &amp; Body Repair Manual</td><td>Oct 1984</td><td>RJ70, LJ70</td><td class="no">No</td></tr>
+    <tr><td>36262E</td><td>Land Cruiser (Heavy Duty) Chassis &amp; Body Repair Manual</td><td>Oct 1984</td><td>FJ62/70/73/75, BJ60/70/73/75, HJ60/75</td><td class="no">No</td></tr>
+    <tr><td>38261E</td><td>Land Cruiser Chassis &amp; Body Repair Manual</td><td>1984</td><td>LJ70, RJ70, LJ73, RJ73</td><td class="no">No</td></tr>
+    <tr><td>RM183E</td><td>Land Cruiser (Hardtop &amp; Canvas Top) Chassis &amp; Body Repair Manual</td><td>Jan 1990</td><td>RJ70/73, LJ70/72/73, PZJ70/73/75, HZJ70/73/75, FJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>RM192E</td><td>Land Cruiser (4-Door Hardtop) Chassis &amp; Body Repair Manual Supplement</td><td>—</td><td>—</td><td class="no">No</td></tr>
+    <tr><td>RM290E</td><td>Land Cruiser Chassis &amp; Body Repair Manual Supplement</td><td>Jan 1992</td><td>RJ70/73/77, LJ70/72/73/77/79, FJ70/73/75, FZJ70/73/75, PZJ70/73/75, HZJ70/73/75, FJ80, FZJ80, HZJ80, HDJ80</td><td class="no">No</td></tr>
+    <tr><td>RM315E</td><td>Land Cruiser Chassis &amp; Body Repair Manual Supplement</td><td>Aug 1992</td><td>RJ70/73/77, LJ70/72/73/77/79, FZJ70/73/75, PZJ70/73/75, HZJ70/73/75, FZJ80, HZJ80, HDJ80</td><td class="no">No</td></tr>
+    <tr><td>RM730E</td><td>Land Cruiser (Hardtop &amp; Canvas Top) Chassis &amp; Body Repair Manual Supplement</td><td>Aug 1999</td><td>FZJ71/74/78/79, HZJ71/74/78/79</td><td class="no">No</td></tr>
+    <tr><td>RM899E</td><td>Land Cruiser (Hardtop &amp; Canvas Top) Chassis &amp; Body Repair Manual Supplement</td><td>Aug 2001</td><td>FZJ71/74/78/79, HZJ71/78/79, HDJ78/79</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Engine Repair Manuals</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>36253E</td><td>3F Engine Repair Manual</td><td>Dec 1984</td><td>FJ62, FJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>RM012E</td><td>2H, 12H-T Engine Repair Manual</td><td>Nov 1985</td><td>HJ60/61/75</td><td class="no">No</td></tr>
+    <tr><td>RM024E</td><td>11B, 13B, 13B-T Engine Repair Manual</td><td>Nov 1985</td><td>BJ71, BJ74</td><td class="no">No</td></tr>
+    <tr><td>RM035E</td><td>B, 3B, 11B, 13B, 13B-T Engine Repair Manual</td><td>Mar 1986</td><td>BJ60/70/71/73/74/75</td><td class="no">No</td></tr>
+    <tr><td>RM053E</td><td>21R, 22R Engine Repair Manual</td><td>Jan 1987</td><td>RJ70</td><td class="no">No</td></tr>
+    <tr><td>RM123E</td><td>2L, 3L Engine Repair Manual</td><td>Aug 1988</td><td>LJ70/71/72/73/77/79</td><td class="no">No</td></tr>
+    <tr><td>RM132E</td><td>B, 3B, 11B, 14B Engine Repair Manual</td><td>Aug 1988</td><td>BJ60/70/73/75</td><td class="no">No</td></tr>
+    <tr><td>RM134E</td><td>3F-E Engine Repair Manual Supplement</td><td>1988</td><td>FJ62, FJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>RM138E</td><td>22R-E Engine Repair Manual Supplement</td><td>—</td><td>RJ70/73</td><td class="no">No</td></tr>
+    <tr><td>RM169E</td><td>2L-T, 3L Engine Repair Manual Supplement</td><td>Jan 1990</td><td>LJ70/71/72/73/77/79</td><td class="no">No</td></tr>
+    <tr><td>RM172E</td><td>1PZ, 1HZ, 1HD-T Engine Repair Manual</td><td>Feb 1990</td><td>PZJ70/73/75, HZJ70/73/75/80, HDJ80</td><td class="no">No</td></tr>
+    <tr><td>RM283E</td><td>1FZ-F Engine Repair Manual</td><td>Jan 1992</td><td>FZJ70/73/75/80</td><td class="no">No</td></tr>
+    <tr><td>RM321E</td><td>1FZ-F, 1FZ-FE Engine Repair Manual</td><td>Aug 1992</td><td>FZJ70/73/75/80</td><td class="no">No</td></tr>
+    <tr><td>RM353E</td><td>1KZ-T Engine Repair Manual</td><td>May 1993</td><td>KZJ70/73/77</td><td class="no">No</td></tr>
+    <tr><td>RM436E</td><td>1FZ-FE Engine Repair Manual Supplement</td><td>Jan 1995</td><td>FZJ75/80</td><td class="no">No</td></tr>
+    <tr><td>RM648E</td><td>1HZ Engine Repair Manual Supplement</td><td>May 1998</td><td>HZJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>RM736E</td><td>1FZ-FE Engine Repair Manual Supplement</td><td>Aug 1999</td><td>FZJ71/74/78/79</td><td class="no">No</td></tr>
+    <tr><td>RM896E</td><td>1HD-FTE Engine Repair Manual Supplement</td><td>Aug 2001</td><td>HDJ78/79, HDJ100</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Emission Control Repair Manuals</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>36380E</td><td>3Y, 22R, 3F Engine Emission Control Repair Manual</td><td>Nov 1984</td><td>RJ70, FJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>ERM086E</td><td>1FZ-F Engine Emission Control Repair Manual</td><td>—</td><td>FZJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>ERM096E</td><td>1FZ-FE Engine Emission Control Repair Manual</td><td>Aug 1992</td><td>FZJ70/73/75</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Transmission Repair Manuals</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>36264E</td><td>A440F, A440L Automatic Transmission Repair Manual</td><td>Nov 1984</td><td>FJ62, FJ70/73, HJ60</td><td class="no">No</td></tr>
+    <tr><td>RM021E</td><td>R151F Manual Transmission Repair Manual</td><td>Nov 1985</td><td>LJ70/73</td><td class="no">No</td></tr>
+    <tr><td>RM188E</td><td>A441L, A440F, A442F Automatic Transmission Repair Manual</td><td>Mar 1990</td><td>FJ70/73, HZJ73, FJ80, HZJ80, HDJ80</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Hydraulic Circuit Diagrams</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>ATH021F</td><td>A440F, A442F Automatic Transmission Hydraulic Circuit Diagrams</td><td>Jan 1990</td><td>FJ70/73, HZJ73, FJ80, HZJ80, HDJ80</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Service Training Information</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>35047E</td><td>11B, 13B Engine Service Training Information</td><td>1984</td><td>BJ70/71/73/74/75</td><td class="no">No</td></tr>
+    <tr><td>35049E</td><td>2L, 2L-T Engine Service Training Information</td><td>1984</td><td>LJ70/71/72/73</td><td class="no">No</td></tr>
+    <tr><td>35052E</td><td>Land Cruiser New Model Service Training Information</td><td>1984</td><td>All 70 series</td><td class="no">No</td></tr>
+    <tr><td>35054E</td><td>A440F, A440L Automatic Transmission Service Training Information</td><td>1984</td><td>—</td><td class="no">No</td></tr>
+    <tr><td>35104E</td><td>Drive Train Service Training Information Vol.1</td><td>1984</td><td>All 70 series</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Electrical Wiring Diagrams</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>EWD088F</td><td>1990 Commercial Vehicles Electrical Wiring Diagram (Europe)</td><td>1990</td><td>—</td><td class="no">No</td></tr>
+    <tr><td>EWD089Y</td><td>1990 Commercial Vehicles Electrical Wiring Diagram (General/Aus)</td><td>1990</td><td>RJ70/73/77, FJ70/73/75, LJ70/72/73/77/79, PZJ70/73/75, HZJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>EWD117F</td><td>Land Cruiser Electrical Wiring Diagram</td><td>Dec 1990</td><td>HZJ70/73/75, PZJ70/73/75, LJ70/72/73/77/79, RJ70/73/77, FJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>EWD168F</td><td>Land Cruiser Electrical Wiring Diagram</td><td>Aug 1992</td><td>FZJ70/73/75, HZJ70/73/75, PZJ70/73/75, LJ70/72/73/77/79, RJ70/73/77</td><td class="no">No</td></tr>
+    <tr><td>6742601</td><td>Land Cruiser Electrical Wiring Diagram</td><td>1993</td><td>HZJ, PZJ, KZJ variants</td><td class="no">No</td></tr>
+    <tr><td>EWD176F</td><td>Land Cruiser Electrical Wiring Diagram Supplement</td><td>May 1993</td><td>—</td><td class="no">No</td></tr>
+    <tr><td>EWD345F</td><td>Land Cruiser Electrical Wiring Diagram Supplement</td><td>May 1998</td><td>FZJ70/73/75, HZJ70/73/75</td><td class="no">No</td></tr>
+    <tr><td>EWD397F</td><td>Land Cruiser Electrical Wiring Diagram Supplement</td><td>Aug 1999</td><td>FZJ71/74/78/79, HZJ71/74/78/79</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>New Car Features</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>AANCF004</td><td>Land Cruiser New Car Features Supplement</td><td>Jan 1995</td><td>FZJ75, HZJ75, FZJ80, HZJ80, HDJ80 (Aus)</td><td class="no">No</td></tr>
+    <tr><td>—</td><td>Land Cruiser New Car Features</td><td>1995</td><td>70 series</td><td class="no">No</td></tr>
+    <tr><td>NCF229E</td><td>New Car Features (multi-model incl. LC70 &amp; LC100)</td><td>Jul 2002</td><td>70 series &amp; 100 series</td><td class="no">No</td></tr>
+    <tr><td>NCF258E</td><td>New Car Features (multi-model incl. LC70 &amp; LC100)</td><td>Jul 2003</td><td>70 series &amp; 100 series</td><td class="no">No</td></tr>
+    <tr><td>NCF276E</td><td>New Car Features</td><td>—</td><td>LC100 &amp; 70 series</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Air Conditioner Manuals</h3>
+<div class="section-block">
+<table>
+  <thead><tr><th>Code</th><th>Title</th><th>Date</th><th>Models</th><th>PDF</th></tr></thead>
+  <tbody>
+    <tr><td>MAC-742</td><td>Air Conditioner Installation Manual</td><td>—</td><td>BJ70, FJ75, HJ75, RJ70</td><td class="no">No</td></tr>
+    <tr><td>MAC-801</td><td>Air Conditioner Installation Manual</td><td>—</td><td>LJ70</td><td class="no">No</td></tr>
+    <tr><td>MAC-1017</td><td>Air Conditioner Installation Manual</td><td>—</td><td>HZJ7x, PZJ7x, LJ7x, RJ7x, FJ7x (RHD, Aus)</td><td class="no">No</td></tr>
+    <tr><td>MAC-1034</td><td>Air Conditioner Installation Manual</td><td>—</td><td>FZJ7x (1FZ-FE, RHD, Aus)</td><td class="no">No</td></tr>
+    <tr><td>MAC-A495</td><td>Air Conditioner Installation Manual</td><td>Oct 1999</td><td>FZJ78/79R (1FZ-FE, RHD, Aus)</td><td class="no">No</td></tr>
+    <tr><td>MAC-A569</td><td>Air Conditioner Installation Manual</td><td>Aug 2001</td><td>HDJ7xR (1HD-FTE, RHD)</td><td class="no">No</td></tr>
+    <tr><td>AOAMC-01</td><td>Air Conditioner General Information / After Installation Manual</td><td>—</td><td>All AAAMC series</td><td class="no">No</td></tr>
+    <tr><td>AAAMC-05</td><td>Air Conditioner Installation Manual</td><td>Aug 2001</td><td>HDJ7xR (1HD-FTE, RHD)</td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="notes"><ul>
+  <li>38261E may overlap with or supersede 36261E — needs foreword to confirm</li>
+  <li>RM192E models unknown — referenced in RM290E, RM315E and EWD168F, likely covers KZJ/HZJ 4-door Prado hardtop variants</li>
+  <li>RM290E and RM315E both cover FJ80/FZJ80/HZJ80/HDJ80 wagon models in addition to 70 series hardtop — shared documents</li>
+  <li>RM172E also covers HZJ80 and HDJ80 — shared with 80 series</li>
+  <li>RM283E and RM321E both cover FZJ80 — shared with 80 series</li>
+  <li>RM436E covers FZJ75 and FZJ80 — shared with 80 series</li>
+  <li>RM896E covers HDJ78/79 and HDJ100 — shared with 100 series</li>
+  <li>36264E and ATH021F cover FJ80/HZJ80/HDJ80 — shared with 80 series</li>
+  <li>RM188E covers FJ80/HZJ80/HDJ80 — shared with 80 series</li>
+  <li>EWD088F models unconfirmed — likely mirrors EWD089Y for Europe market</li>
+  <li>6742601 unusual code — may be a part number rather than publication code, confirm</li>
+  <li>EWD176F models unconfirmed</li>
+  <li>1995 New Car Features code unconfirmed</li>
+  <li>MAC-742, MAC-801, MAC-1034 dates unconfirmed</li>
+</ul></div>
   </div>
 </div>
 
