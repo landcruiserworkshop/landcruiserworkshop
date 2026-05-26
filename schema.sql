@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     reset_token TEXT,
     reset_token_expires INTEGER,
     series_interest TEXT,
+    mailing_list INTEGER DEFAULT 0,
     created_at INTEGER DEFAULT (unixepoch()),
     last_login INTEGER
 );

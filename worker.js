@@ -135,7 +135,7 @@ async function sendPasswordResetEmail(email, token, siteUrl, resendApiKey) {
 // ── Route handlers ──────────────────────────────────────────────────────────
 
 async function handleSignup(request, env) {
-  const { username, email, password, series_interest } = await request.json();
+  const { username, email, password, series_interest, mailing_list } = await request.json();
 
   if (!username || !email || !password) {
     return json({ error: 'Username, email and password are required' }, 400);
@@ -169,8 +169,8 @@ async function handleSignup(request, env) {
   const verify_token = generateToken();
 
   await env.DB.prepare(
-    'INSERT INTO users (username, email, password_hash, verify_token, series_interest) VALUES (?, ?, ?, ?, ?)'
-  ).bind(username, email.toLowerCase(), password_hash, verify_token, series_interest || null).run();
+    'INSERT INTO users (username, email, password_hash, verify_token, series_interest, mailing_list) VALUES (?, ?, ?, ?, ?, ?)'
+  ).bind(username, email.toLowerCase(), password_hash, verify_token, series_interest || null, mailing_list ? 1 : 0).run();
 
   await sendVerificationEmail(email, verify_token, env.SITE_URL, env.RESEND_API_KEY);
 
@@ -288,6 +288,77 @@ async function handleDownload(request, env) {
   return json({ url: pdfUrl });
 }
 
+async function handleUpdateSettings(request, env) {
+  const sessionId = getSessionCookie(request);
+  if (!sessionId) return json({ error: 'Not authenticated' }, 401);
+
+  const session = await env.DB.prepare(
+    'SELECT user_id, expires_at FROM sessions WHERE id = ?'
+  ).bind(sessionId).first();
+
+  if (!session || session.expires_at < Math.floor(Date.now() / 1000)) {
+    return json({ error: 'Session expired' }, 401);
+  }
+
+  const { series_interest, mailing_list } = await request.json();
+
+  await env.DB.prepare(
+    'UPDATE users SET series_interest = ?, mailing_list = ? WHERE id = ?'
+  ).bind(series_interest || null, mailing_list ? 1 : 0, session.user_id).run();
+
+  return json({ success: true });
+}
+
+async function handleChangePassword(request, env) {
+  const sessionId = getSessionCookie(request);
+  if (!sessionId) return json({ error: 'Not authenticated' }, 401);
+
+  const session = await env.DB.prepare(
+    'SELECT user_id, expires_at FROM sessions WHERE id = ?'
+  ).bind(sessionId).first();
+
+  if (!session || session.expires_at < Math.floor(Date.now() / 1000)) {
+    return json({ error: 'Session expired' }, 401);
+  }
+
+  const { current_password, new_password } = await request.json();
+  if (!current_password || !new_password) return json({ error: 'Both passwords required' }, 400);
+  if (new_password.length < 8) return json({ error: 'New password must be at least 8 characters' }, 400);
+
+  const user = await env.DB.prepare(
+    'SELECT password_hash FROM users WHERE id = ?'
+  ).bind(session.user_id).first();
+
+  if (!await verifyPassword(current_password, user.password_hash)) {
+    return json({ error: 'Current password is incorrect' }, 401);
+  }
+
+  const new_hash = await hashPassword(new_password);
+  await env.DB.prepare('UPDATE users SET password_hash = ? WHERE id = ?')
+    .bind(new_hash, session.user_id).run();
+
+  return json({ success: true });
+}
+
+async function handleGetSettings(request, env) {
+  const sessionId = getSessionCookie(request);
+  if (!sessionId) return json({ error: 'Not authenticated' }, 401);
+
+  const session = await env.DB.prepare(
+    'SELECT user_id, expires_at FROM sessions WHERE id = ?'
+  ).bind(sessionId).first();
+
+  if (!session || session.expires_at < Math.floor(Date.now() / 1000)) {
+    return json({ error: 'Session expired' }, 401);
+  }
+
+  const user = await env.DB.prepare(
+    'SELECT series_interest, mailing_list FROM users WHERE id = ?'
+  ).bind(session.user_id).first();
+
+  return json({ series_interest: user.series_interest || '', mailing_list: user.mailing_list === 1 });
+}
+
 async function handleForgotPassword(request, env) {
   const { email } = await request.json();
   if (!email) return json({ error: 'Email required' }, 400);
@@ -391,6 +462,9 @@ export default {
       if (path === '/api/auth/download' && request.method === 'POST') return handleDownload(request, env);
       if (path === '/api/auth/forgot-password' && request.method === 'POST') return handleForgotPassword(request, env);
       if (path === '/api/auth/reset-password' && request.method === 'POST') return handleResetPassword(request, env);
+      if (path === '/api/auth/update-settings' && request.method === 'POST') return handleUpdateSettings(request, env);
+      if (path === '/api/auth/change-password' && request.method === 'POST') return handleChangePassword(request, env);
+      if (path === '/api/auth/get-settings' && request.method === 'GET') return handleGetSettings(request, env);
 
       return json({ error: 'Not found' }, 404);
     } catch (err) {

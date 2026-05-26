@@ -569,6 +569,25 @@
   </div>
 
   <div class="category">
+    <div class="category-heading">Free Registration</div>
+    <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
+      <p style="margin-bottom: 1rem;">Downloading manuals requires a free account. There are no catches — no subscription, no payment, no spam. Registration takes under a minute and just requires an email address.</p>
+      <p style="margin-bottom: 1rem;">We ask which series you own so we can prioritise which manuals to track down next. You can optionally subscribe to occasional updates when new manuals are added to the archive.</p>
+      <p>Your data is never sold or shared with third parties. You can delete your account at any time by emailing <a href="mailto:contact@landcruiserworkshop.com" style="color: #2a2118; border-bottom: 1px solid #2a2118; text-decoration: none;">contact@landcruiserworkshop.com</a>.</p>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-heading">Privacy</div>
+    <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
+      <p style="margin-bottom: 1rem;"><strong>What we collect:</strong> Email address, username, which series you own (optional), mailing list preference, and a log of which manuals you've downloaded. We do not collect your name, location, or any payment information.</p>
+      <p style="margin-bottom: 1rem;"><strong>How we use it:</strong> Your email is used to verify your account and, if you opt in, to send occasional updates about new manuals added to the archive. We do not send marketing emails or share your data with any third party.</p>
+      <p style="margin-bottom: 1rem;"><strong>Data storage:</strong> Account data is stored securely on Cloudflare's infrastructure. Passwords are hashed using PBKDF2 and never stored in plain text. Sessions expire after 30 days.</p>
+      <p><strong>Your rights:</strong> You can update your series interest and mailing list preference at any time via the account menu. To delete your account and all associated data, email <a href="mailto:contact@landcruiserworkshop.com" style="color: #2a2118; border-bottom: 1px solid #2a2118; text-decoration: none;">contact@landcruiserworkshop.com</a>.</p>
+    </div>
+  </div>
+
+  <div class="category">
     <div class="category-heading">Contact</div>
     <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
       <p style="margin-bottom: 1rem;">For questions about the archive or its contents, get in touch at:</p>
@@ -577,11 +596,11 @@
       <div id="missing-manuals"></div>
     </div>
   </div>
-    <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
-      <p style="margin-bottom: 1rem;">Long-time 80 Series enthusiast, with a 60 Series on the wishlist. I built this site out of frustration — factory service manuals for these trucks are out there, but they're scattered across a dozen different corners of the internet and half the time impossible to track down. This is my attempt to fix that.</p>
-      <p style="margin-bottom: 1.5rem;">Pictured below are my two 80s — a 1994 HDJ80 (1HD-T) and a 1994 FZJ80 (1FZ-FE).</p>
-      <img src="https://files.landcruiserworkshop.com/images/about_pic.png" alt="My two Toyota Land Cruiser 80 Series" style="width: 100%; max-width: 700px; display: block; border: 1px solid #c4b49a;">
-    </div>
+
+  <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
+    <p style="margin-bottom: 1rem;">Long-time 80 Series enthusiast, with a 60 Series on the wishlist. I built this site out of frustration — factory service manuals for these trucks are out there, but they're scattered across a dozen different corners of the internet and half the time impossible to track down. This is my attempt to fix that.</p>
+    <p style="margin-bottom: 1.5rem;">Pictured below are my two 80s — a 1994 HDJ80 (1HD-T) and a 1994 FZJ80 (1FZ-FE).</p>
+    <img src="https://files.landcruiserworkshop.com/images/about_pic.png" alt="My two Toyota Land Cruiser 80 Series" style="width: 100%; max-width: 700px; display: block; border: 1px solid #c4b49a;">
   </div>
 
 </div>
@@ -916,6 +935,11 @@ window.addEventListener('DOMContentLoaded', () => {
           <label class="series-check"><input type="checkbox" value="100"> 100 Series</label>
         </div>
       </div>
+      <div class="form-group">
+        <label class="series-check">
+          <input type="checkbox" id="signup-mailing"> Subscribe to mailing list — new manuals, updates &amp; news
+        </label>
+      </div>
       <div class="form-error" id="signup-error"></div>
       <div class="form-success" id="signup-success"></div>
       <button class="form-submit" id="signup-btn" onclick="doSignup()">Create Account</button>
@@ -956,7 +980,48 @@ window.addEventListener('DOMContentLoaded', () => {
       <div class="modal-title">Your Account</div>
       <p style="font-size: 0.82rem; color: #2a2118; font-weight: 700; margin-bottom: 0.25rem;" id="account-username"></p>
       <p style="font-size: 0.75rem; color: #6b5a3e; margin-bottom: 1.5rem;" id="account-email"></p>
-      <button class="form-submit" onclick="doLogout()">Sign Out</button>
+
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 1rem;">
+        <div class="form-label" style="margin-bottom: 0.5rem;">Series Interest</div>
+        <div class="series-check-group" id="account-series-checks">
+          <label class="series-check"><input type="checkbox" value="40"> 40 Series</label>
+          <label class="series-check"><input type="checkbox" value="50"> 50 Series</label>
+          <label class="series-check"><input type="checkbox" value="60"> 60 Series</label>
+          <label class="series-check"><input type="checkbox" value="70"> 70 Series</label>
+          <label class="series-check"><input type="checkbox" value="80"> 80 Series</label>
+          <label class="series-check"><input type="checkbox" value="90"> 90 Series</label>
+          <label class="series-check"><input type="checkbox" value="100"> 100 Series</label>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 1rem;">
+        <label class="series-check">
+          <input type="checkbox" id="account-mailing"> Subscribe to mailing list — new manuals, updates &amp; news
+        </label>
+      </div>
+
+      <div class="form-error" id="account-error"></div>
+      <div class="form-success" id="account-success"></div>
+      <button class="form-submit" style="margin-bottom: 0.75rem;" onclick="saveAccountSettings()">Save Settings</button>
+
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 1rem;">
+        <div class="form-label" style="margin-bottom: 0.5rem;">Change Password</div>
+        <div class="form-group">
+          <input class="form-input" type="password" id="account-current-password" placeholder="" autocomplete="current-password" style="margin-bottom: 0.5rem;">
+          <label class="form-label">Current Password</label>
+        </div>
+        <div class="form-group">
+          <input class="form-input" type="password" id="account-new-password" placeholder="" autocomplete="new-password" style="margin-bottom: 0.5rem;">
+          <label class="form-label">New Password (min. 8 characters)</label>
+        </div>
+        <div class="form-error" id="account-pw-error"></div>
+        <div class="form-success" id="account-pw-success"></div>
+        <button class="form-submit" style="margin-bottom: 0.75rem;" onclick="changePassword()">Change Password</button>
+      </div>
+
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem;">
+        <button class="form-submit" style="background: #6b5a3e;" onclick="doLogout()">Sign Out</button>
+      </div>
     </div>
 
   </div>
@@ -999,6 +1064,7 @@ function openModal(view = 'login') {
   if (view === 'account' && currentUser) {
     document.getElementById('account-username').textContent = currentUser.username;
     document.getElementById('account-email').textContent = currentUser.email;
+    loadAccountSettings();
   }
 }
 
@@ -1083,6 +1149,7 @@ async function doSignup() {
   const password = document.getElementById('signup-password').value;
   const checks = document.querySelectorAll('.series-check-group input:checked');
   const series = Array.from(checks).map(c => c.value).join(',');
+  const mailing = document.getElementById('signup-mailing').checked;
 
   const btn = document.getElementById('signup-btn');
   btn.disabled = true;
@@ -1093,7 +1160,7 @@ async function doSignup() {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password, series_interest: series }),
+      body: JSON.stringify({ username, email, password, series_interest: series, mailing_list: mailing }),
     });
     const data = await res.json();
     if (data.error) {
@@ -1104,6 +1171,7 @@ async function doSignup() {
       document.getElementById('signup-email').value = '';
       document.getElementById('signup-password').value = '';
       document.querySelectorAll('.series-check-group input').forEach(c => c.checked = false);
+      document.getElementById('signup-mailing').checked = false;
       clearMessages('signup-error', 'signup-success');
       // Close modal and show verify notice
       closeModal();
@@ -1213,6 +1281,78 @@ async function doReset() {
 
   btn.disabled = false;
   btn.textContent = 'Set Password';
+}
+
+// ── Account Settings ────────────────────────────────────────────────────────
+async function loadAccountSettings() {
+  try {
+    const res = await fetch(`${API}/get-settings`, { credentials: 'include' });
+    const data = await res.json();
+    if (data.error) return;
+
+    // Set series checkboxes
+    const series = (data.series_interest || '').split(',').filter(Boolean);
+    document.querySelectorAll('#account-series-checks input').forEach(cb => {
+      cb.checked = series.includes(cb.value);
+    });
+
+    // Set mailing list
+    document.getElementById('account-mailing').checked = data.mailing_list;
+  } catch {}
+}
+
+async function saveAccountSettings() {
+  clearMessages('account-error', 'account-success');
+  const checks = document.querySelectorAll('#account-series-checks input:checked');
+  const series = Array.from(checks).map(c => c.value).join(',');
+  const mailing = document.getElementById('account-mailing').checked;
+
+  try {
+    const res = await fetch(`${API}/update-settings`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ series_interest: series, mailing_list: mailing }),
+    });
+    const data = await res.json();
+    if (data.error) {
+      showError('account-error', data.error);
+    } else {
+      showSuccess('account-success', 'Settings saved.');
+    }
+  } catch {
+    showError('account-error', 'Something went wrong. Please try again.');
+  }
+}
+
+async function changePassword() {
+  clearMessages('account-pw-error', 'account-pw-success');
+  const current = document.getElementById('account-current-password').value;
+  const newPw = document.getElementById('account-new-password').value;
+
+  if (!current || !newPw) {
+    showError('account-pw-error', 'Both fields are required.');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API}/change-password`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ current_password: current, new_password: newPw }),
+    });
+    const data = await res.json();
+    if (data.error) {
+      showError('account-pw-error', data.error);
+    } else {
+      showSuccess('account-pw-success', 'Password changed successfully.');
+      document.getElementById('account-current-password').value = '';
+      document.getElementById('account-new-password').value = '';
+    }
+  } catch {
+    showError('account-pw-error', 'Something went wrong. Please try again.');
+  }
 }
 
 // ── Download Gating ─────────────────────────────────────────────────────────
