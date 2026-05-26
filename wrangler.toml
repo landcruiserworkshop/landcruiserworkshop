@@ -1,0 +1,19 @@
+name = "landcruiser-auth"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "landcruiserworkshop-users"
+database_id = "2389f62f-4382-4162-8bf6-dc585ecf8137"
+
+[vars]
+SITE_URL = "https://landcruiserworkshop.com"
+
+# Set these as secrets via:
+# wrangler secret put RESEND_API_KEY
+# wrangler secret put JWT_SECRET
+
+[[routes]]
+pattern = "landcruiserworkshop.com/api/*"
+zone_name = "landcruiserworkshop.com"

@@ -74,6 +74,34 @@
   .search-section { margin-bottom: 2rem; }
   .search-section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #2a2118; background: #e8dfc8; padding: 0.4rem 0.75rem; border-left: 4px solid #2a2118; margin-bottom: 0; }
   .no-results { font-size: 0.82rem; color: #6b5a3e; padding: 2rem 0; }
+  /* ── Auth ── */
+  .auth-btn { font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border: 1px solid #2a2118; background: none; color: #2a2118; cursor: pointer; white-space: nowrap; }
+  .auth-btn:hover { background: #2a2118; color: #f5f0e8; }
+  .auth-btn.signed-in { background: #2a2118; color: #f5f0e8; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(42,33,24,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #f5f0e8; border: 2px solid #2a2118; max-width: 420px; width: 100%; padding: 2rem; position: relative; }
+  .modal-title { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; border-bottom: 2px solid #2a2118; padding-bottom: 0.75rem; }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6b5a3e; line-height: 1; }
+  .modal-close:hover { color: #2a2118; }
+  .form-group { margin-bottom: 1rem; }
+  .form-label { display: block; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6b5a3e; margin-bottom: 0.35rem; }
+  .form-input { width: 100%; font-family: 'Courier New', monospace; font-size: 0.85rem; padding: 0.5rem 0.75rem; border: 1px solid #2a2118; background: #faf7f0; color: #2a2118; outline: none; }
+  .form-input:focus { background: #fff; }
+  .form-submit { width: 100%; font-family: 'Courier New', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.65rem; background: #2a2118; color: #f5f0e8; border: none; cursor: pointer; margin-top: 0.5rem; }
+  .form-submit:hover { background: #4a3828; }
+  .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+  .form-switch { font-size: 0.75rem; color: #6b5a3e; margin-top: 1rem; text-align: center; }
+  .form-switch a { color: #2a2118; cursor: pointer; border-bottom: 1px solid #2a2118; }
+  .form-error { font-size: 0.75rem; color: #c0392b; margin-top: 0.5rem; padding: 0.4rem 0.75rem; background: #fde8e8; border-left: 3px solid #c0392b; display: none; }
+  .form-error.show { display: block; }
+  .form-success { font-size: 0.75rem; color: #27ae60; margin-top: 0.5rem; padding: 0.4rem 0.75rem; background: #e8f8ee; border-left: 3px solid #27ae60; display: none; }
+  .form-success.show { display: block; }
+  .series-check-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.35rem; }
+  .series-check { display: flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; cursor: pointer; }
+  .series-check input { accent-color: #2a2118; cursor: pointer; }
+  .gate-notice { font-size: 0.8rem; color: #6b5a3e; padding: 0.75rem; background: #ede5d0; border-left: 3px solid #2a2118; margin-bottom: 1rem; }
+  .gate-notice a { color: #2a2118; cursor: pointer; border-bottom: 1px solid; }
   @media (max-width: 600px) and (orientation: portrait) {
     .manual-table th:nth-child(2), .manual-table td:nth-child(2) { display: none; }
     .manual-table th:nth-child(3), .manual-table td:nth-child(3) { display: none; }
@@ -87,12 +115,15 @@
 <body>
 
 <header class="page-header">
-  <div style="display: flex; align-items: center; gap: 1.25rem;">
-    <img src="https://files.landcruiserworkshop.com/images/favicon.png" alt="Land Cruiser Workshop" style="width: 60px; height: 60px; object-fit: contain;">
-    <div>
-      <div class="site-title">The Land Cruiser Workshop</div>
-      <div class="site-subtitle">Toyota Land Cruiser — Factory Service Manual Archive</div>
+  <div style="display: flex; align-items: center; gap: 1.25rem; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 1.25rem;">
+      <img src="https://files.landcruiserworkshop.com/images/favicon.png" alt="Land Cruiser Workshop" style="width: 60px; height: 60px; object-fit: contain;">
+      <div>
+        <div class="site-title">The Land Cruiser Workshop</div>
+        <div class="site-subtitle">Toyota Land Cruiser — Factory Service Manual Archive</div>
+      </div>
     </div>
+    <div id="auth-header" style="flex-shrink: 0;"></div>
   </div>
 </header>
 
@@ -826,6 +857,384 @@ window.addEventListener('DOMContentLoaded', () => {
 
   runSearch();
 });
+</script>
+
+<!-- ── Auth Modal ── -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+
+    <!-- Login View -->
+    <div id="view-login">
+      <div class="modal-title">Sign In</div>
+      <div class="gate-notice">Create a free account to download factory service manuals.</div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="login-email" placeholder="" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="login-password" placeholder="" autocomplete="current-password">
+      </div>
+      <div class="form-error" id="login-error"></div>
+      <div class="form-success" id="login-success"></div>
+      <button class="form-submit" id="login-btn" onclick="doLogin()">Sign In</button>
+      <div class="form-switch">
+        No account? <a onclick="showView('signup')">Create one — it's free</a>
+      </div>
+      <div class="form-switch" style="margin-top: 0.5rem;">
+        <a onclick="showView('forgot')">Forgot password?</a>
+      </div>
+    </div>
+
+    <!-- Signup View -->
+    <div id="view-signup" style="display:none;">
+      <div class="modal-title">Create Account</div>
+      <div class="gate-notice">Free access to the full factory service manual archive.</div>
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input class="form-input" type="text" id="signup-username" placeholder="" autocomplete="username">
+        <div style="font-size:0.7rem; color:#6b5a3e; margin-top:0.25rem;">Letters, numbers, underscores and hyphens only</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="signup-email" placeholder="" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="signup-password" placeholder="" autocomplete="new-password">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Which series do you own? (optional)</label>
+        <div class="series-check-group">
+          <label class="series-check"><input type="checkbox" value="40"> 40 Series</label>
+          <label class="series-check"><input type="checkbox" value="50"> 50 Series</label>
+          <label class="series-check"><input type="checkbox" value="60"> 60 Series</label>
+          <label class="series-check"><input type="checkbox" value="70"> 70 Series</label>
+          <label class="series-check"><input type="checkbox" value="80"> 80 Series</label>
+          <label class="series-check"><input type="checkbox" value="90"> 90 Series</label>
+          <label class="series-check"><input type="checkbox" value="100"> 100 Series</label>
+        </div>
+      </div>
+      <div class="form-error" id="signup-error"></div>
+      <div class="form-success" id="signup-success"></div>
+      <button class="form-submit" id="signup-btn" onclick="doSignup()">Create Account</button>
+      <div class="form-switch">
+        Already have an account? <a onclick="showView('login')">Sign in</a>
+      </div>
+    </div>
+
+    <!-- Forgot Password View -->
+    <div id="view-forgot" style="display:none;">
+      <div class="modal-title">Reset Password</div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="forgot-email" placeholder="">
+      </div>
+      <div class="form-error" id="forgot-error"></div>
+      <div class="form-success" id="forgot-success"></div>
+      <button class="form-submit" id="forgot-btn" onclick="doForgot()">Send Reset Link</button>
+      <div class="form-switch">
+        <a onclick="showView('login')">Back to sign in</a>
+      </div>
+    </div>
+
+    <!-- Reset Password View -->
+    <div id="view-reset" style="display:none;">
+      <div class="modal-title">Set New Password</div>
+      <div class="form-group">
+        <label class="form-label">New Password</label>
+        <input class="form-input" type="password" id="reset-password" placeholder="">
+      </div>
+      <div class="form-error" id="reset-error"></div>
+      <div class="form-success" id="reset-success"></div>
+      <button class="form-submit" id="reset-btn" onclick="doReset()">Set Password</button>
+    </div>
+
+    <!-- Signed In View -->
+    <div id="view-account" style="display:none;">
+      <div class="modal-title">Your Account</div>
+      <p style="font-size: 0.82rem; color: #2a2118; font-weight: 700; margin-bottom: 0.25rem;" id="account-username"></p>
+      <p style="font-size: 0.75rem; color: #6b5a3e; margin-bottom: 1.5rem;" id="account-email"></p>
+      <button class="form-submit" onclick="doLogout()">Sign Out</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Auth State ──────────────────────────────────────────────────────────────
+const API = 'https://landcruiserworkshop.com/api/auth';
+let currentUser = null;
+
+async function checkSession() {
+  try {
+    const res = await fetch(`${API}/session`, { credentials: 'include' });
+    const data = await res.json();
+    if (data.authenticated) {
+      currentUser = { email: data.email, username: data.username };
+      renderAuthHeader(true);
+    } else {
+      currentUser = null;
+      renderAuthHeader(false);
+    }
+  } catch {
+    renderAuthHeader(false);
+  }
+}
+
+function renderAuthHeader(signedIn) {
+  const el = document.getElementById('auth-header');
+  if (signedIn) {
+    el.innerHTML = `<button class="auth-btn signed-in" onclick="openModal('account')">&#9632; ${currentUser.username}</button>`;
+  } else {
+    el.innerHTML = `<button class="auth-btn" onclick="openModal('login')">Sign In / Register</button>`;
+  }
+}
+
+// ── Modal ───────────────────────────────────────────────────────────────────
+function openModal(view = 'login') {
+  document.getElementById('auth-modal').classList.add('open');
+  showView(view);
+  if (view === 'account' && currentUser) {
+    document.getElementById('account-username').textContent = currentUser.username;
+    document.getElementById('account-email').textContent = currentUser.email;
+  }
+}
+
+function closeModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+}
+
+function showView(name) {
+  ['login','signup','forgot','reset','account'].forEach(v => {
+    document.getElementById(`view-${v}`).style.display = v === name ? 'block' : 'none';
+  });
+}
+
+// Close on overlay click
+document.getElementById('auth-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Check for reset token in URL
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('reset')) {
+    openModal('reset');
+  }
+  if (params.get('verified') === 'success') {
+    checkSession();
+    alert('Email verified! You are now signed in.');
+  }
+  if (params.get('verified') === 'invalid') {
+    openModal('login');
+    showError('login-error', 'Invalid or expired verification link.');
+  }
+})();
+
+// ── Auth Actions ────────────────────────────────────────────────────────────
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+function showSuccess(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+function clearMessages(...ids) {
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('show');
+    el.textContent = '';
+  });
+}
+
+async function doSignup() {
+  clearMessages('signup-error', 'signup-success');
+  const username = document.getElementById('signup-username').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const checks = document.querySelectorAll('.series-check-group input:checked');
+  const series = Array.from(checks).map(c => c.value).join(',');
+
+  const btn = document.getElementById('signup-btn');
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+
+  try {
+    const res = await fetch(`${API}/signup`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password, series_interest: series }),
+    });
+    const data = await res.json();
+    if (data.error) {
+      showError('signup-error', data.error);
+    } else {
+      showSuccess('signup-success', 'Account created! Check your email to verify.');
+      document.getElementById('signup-username').value = '';
+      document.getElementById('signup-email').value = '';
+      document.getElementById('signup-password').value = '';
+    }
+  } catch {
+    showError('signup-error', 'Something went wrong. Please try again.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Create Account';
+}
+
+async function doLogin() {
+  clearMessages('login-error', 'login-success');
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+
+  try {
+    const res = await fetch(`${API}/login`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (data.error) {
+      showError('login-error', data.error);
+    } else {
+      currentUser = { email };
+      renderAuthHeader(true);
+      closeModal();
+      // Retry any pending download
+      if (pendingDownload) {
+        const p = pendingDownload;
+        pendingDownload = null;
+        handleDownload(p.code, p.title, p.url);
+      }
+    }
+  } catch {
+    showError('login-error', 'Something went wrong. Please try again.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Sign In';
+}
+
+async function doLogout() {
+  await fetch(`${API}/logout`, { method: 'POST', credentials: 'include' });
+  currentUser = null;
+  renderAuthHeader(false);
+  closeModal();
+}
+
+async function doForgot() {
+  clearMessages('forgot-error', 'forgot-success');
+  const email = document.getElementById('forgot-email').value.trim();
+  const btn = document.getElementById('forgot-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    const res = await fetch(`${API}/forgot-password`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    showSuccess('forgot-success', data.message || 'Reset link sent if account exists.');
+  } catch {
+    showError('forgot-error', 'Something went wrong. Please try again.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Send Reset Link';
+}
+
+async function doReset() {
+  clearMessages('reset-error', 'reset-success');
+  const password = document.getElementById('reset-password').value;
+  const token = new URLSearchParams(window.location.search).get('reset');
+  const btn = document.getElementById('reset-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  try {
+    const res = await fetch(`${API}/reset-password`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, password }),
+    });
+    const data = await res.json();
+    if (data.error) {
+      showError('reset-error', data.error);
+    } else {
+      showSuccess('reset-success', 'Password reset. You can now sign in.');
+      setTimeout(() => showView('login'), 2000);
+    }
+  } catch {
+    showError('reset-error', 'Something went wrong. Please try again.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Set Password';
+}
+
+// ── Download Gating ─────────────────────────────────────────────────────────
+let pendingDownload = null;
+
+async function handleDownload(code, title, directUrl) {
+  if (!currentUser) {
+    pendingDownload = { code, title, url: directUrl };
+    openModal('login');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API}/download`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ manual_code: code, manual_title: title }),
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.open(data.url, '_blank');
+    } else if (data.error === 'Not authenticated' || data.error === 'Session expired') {
+      currentUser = null;
+      renderAuthHeader(false);
+      pendingDownload = { code, title, url: directUrl };
+      openModal('login');
+    }
+  } catch {
+    // Fallback to direct URL
+    window.open(directUrl, '_blank');
+  }
+}
+
+// ── Intercept PDF links ─────────────────────────────────────────────────────
+document.addEventListener('click', function(e) {
+  const link = e.target.closest('a.pdf-link');
+  if (!link) return;
+  e.preventDefault();
+  const url = link.href;
+  const code = url.split('/manuals/')[1]?.replace('.pdf', '') || '';
+  const row = link.closest('tr');
+  const title = row ? row.querySelector('td:nth-child(2)')?.textContent?.trim() : '';
+  handleDownload(code, title, url);
+});
+
+// ── Init ────────────────────────────────────────────────────────────────────
+checkSession();
 </script>
 
 </body>
