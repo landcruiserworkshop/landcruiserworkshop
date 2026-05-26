@@ -869,8 +869,8 @@ window.addEventListener('DOMContentLoaded', () => {
       <div class="modal-title">Sign In</div>
       <div class="gate-notice">Create a free account to download factory service manuals.</div>
       <div class="form-group">
-        <label class="form-label">Email</label>
-        <input class="form-input" type="email" id="login-email" placeholder="" autocomplete="email">
+        <label class="form-label">Email or Username</label>
+        <input class="form-input" type="text" id="login-email" placeholder="" autocomplete="email">
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
@@ -1033,6 +1033,28 @@ document.getElementById('auth-modal').addEventListener('click', function(e) {
   }
 })();
 
+// ── Verify Notice ───────────────────────────────────────────────────────────
+function showVerifyNotice(email) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay open';
+  overlay.innerHTML = `
+    <div class="modal" style="text-align: center;">
+      <div class="modal-title">Check Your Email</div>
+      <p style="font-size: 0.85rem; color: #2a2118; line-height: 1.7; margin-bottom: 1rem;">
+        We've sent a verification link to<br><strong>${email}</strong>
+      </p>
+      <p style="font-size: 0.78rem; color: #6b5a3e; line-height: 1.6; margin-bottom: 1.5rem;">
+        Click the link in the email to activate your account and access the manual archive.
+      </p>
+      <button class="form-submit" onclick="this.closest('.modal-overlay').remove()">OK</button>
+    </div>
+  `;
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) this.remove();
+  });
+  document.body.appendChild(overlay);
+}
+
 // ── Auth Actions ────────────────────────────────────────────────────────────
 function showError(id, msg) {
   const el = document.getElementById(id);
@@ -1077,10 +1099,15 @@ async function doSignup() {
     if (data.error) {
       showError('signup-error', data.error);
     } else {
-      showSuccess('signup-success', 'Account created! Check your email to verify.');
+      // Clear form
       document.getElementById('signup-username').value = '';
       document.getElementById('signup-email').value = '';
       document.getElementById('signup-password').value = '';
+      document.querySelectorAll('.series-check-group input').forEach(c => c.checked = false);
+      clearMessages('signup-error', 'signup-success');
+      // Close modal and show verify notice
+      closeModal();
+      showVerifyNotice(email);
     }
   } catch {
     showError('signup-error', 'Something went wrong. Please try again.');
@@ -1092,7 +1119,7 @@ async function doSignup() {
 
 async function doLogin() {
   clearMessages('login-error', 'login-success');
-  const email = document.getElementById('login-email').value.trim();
+  const identifier = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
 
   const btn = document.getElementById('login-btn');
@@ -1104,16 +1131,15 @@ async function doLogin() {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email: identifier, password }),
     });
     const data = await res.json();
     if (data.error) {
       showError('login-error', data.error);
     } else {
-      currentUser = { email };
-      renderAuthHeader(true);
+      // Fetch session to get username
+      await checkSession();
       closeModal();
-      // Retry any pending download
       if (pendingDownload) {
         const p = pendingDownload;
         pendingDownload = null;

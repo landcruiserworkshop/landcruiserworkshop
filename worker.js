@@ -209,29 +209,28 @@ async function handleLogin(request, env) {
   const { email, password } = await request.json();
 
   if (!email || !password) {
-    return json({ error: 'Email and password are required' }, 400);
+    return json({ error: 'Email/username and password are required' }, 400);
   }
 
+  // Look up by email or username
   const user = await env.DB.prepare(
-    'SELECT id, password_hash, verified FROM users WHERE email = ?'
-  ).bind(email.toLowerCase()).first();
+    'SELECT id, password_hash, verified FROM users WHERE email = ? OR username = ?'
+  ).bind(email.toLowerCase(), email).first();
 
   if (!user || !(await verifyPassword(password, user.password_hash))) {
-    return json({ error: 'Invalid email or password' }, 401);
+    return json({ error: 'Invalid email/username or password' }, 401);
   }
 
   if (!user.verified) {
     return json({ error: 'Please verify your email before logging in' }, 403);
   }
 
-  // Create session
   const sessionId = generateSessionId();
   const expiresAt = Math.floor(Date.now() / 1000) + SESSION_TTL;
   await env.DB.prepare(
     'INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)'
   ).bind(sessionId, user.id, expiresAt).run();
 
-  // Update last login
   await env.DB.prepare('UPDATE users SET last_login = ? WHERE id = ?')
     .bind(Math.floor(Date.now() / 1000), user.id).run();
 
