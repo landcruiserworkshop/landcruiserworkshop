@@ -588,6 +588,32 @@
   </div>
 
   <div class="category">
+    <div class="category-heading">Request a Manual</div>
+    <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
+      <p style="margin-bottom: 1rem;">Can't find what you're looking for? Submit a request and we'll prioritise tracking it down.</p>
+      <div class="form-group">
+        <label class="form-label">Publication Code <span style="color:#8b2c2c;">*</span></label>
+        <input class="form-input" type="text" id="req-code" placeholder="e.g. RM183E">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Manual Title (optional)</label>
+        <input class="form-input" type="text" id="req-title" placeholder="e.g. Land Cruiser Chassis & Body Repair Manual">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes (optional)</label>
+        <input class="form-input" type="text" id="req-notes" placeholder="Series, year, market, anything else useful">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Email (optional — if you'd like to be notified when it's added)</label>
+        <input class="form-input" type="email" id="req-email">
+      </div>
+      <div class="form-error" id="manual-req-error"></div>
+      <div class="form-success" id="manual-req-success"></div>
+      <button class="form-submit" id="req-btn" onclick="submitManualRequest()" style="max-width: 200px;">Submit Request</button>
+    </div>
+  </div>
+
+  <div class="category">
     <div class="category-heading">Contact</div>
     <div style="padding: 1.25rem 0.75rem; font-size: 0.85rem; line-height: 1.9; background: #faf7f0; border-bottom: 1px solid #ddd4bb;">
       <p style="margin-bottom: 1rem;">For questions about the archive or its contents, get in touch at:</p>
@@ -714,7 +740,13 @@
 </main>
 
 <footer class="footer">
-  Factory service manuals for personal research and restoration use &mdash; contact@landcruiserworkshop.com
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+    <span>Factory service manuals for personal research and restoration use &mdash; contact@landcruiserworkshop.com</span>
+    <span style="display: flex; gap: 1rem;">
+      <a onclick="showSeries('contact', document.querySelector('.tab:last-child'))" style="color: #6b5a3e; cursor: pointer; border-bottom: 1px solid #c4b49a; text-decoration: none;">Privacy</a>
+      <a href="/sitemap.xml" style="color: #6b5a3e; text-decoration: none; border-bottom: 1px solid #c4b49a;">Sitemap</a>
+    </span>
+  </div>
 </footer>
 
 <script>
@@ -976,12 +1008,13 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <!-- Signed In View -->
-    <div id="view-account" style="display:none;">
+    <div id="view-account" style="display:none; max-height: 70vh; overflow-y: auto;">
       <div class="modal-title">Your Account</div>
       <p style="font-size: 0.82rem; color: #2a2118; font-weight: 700; margin-bottom: 0.25rem;" id="account-username"></p>
-      <p style="font-size: 0.75rem; color: #6b5a3e; margin-bottom: 1.5rem;" id="account-email"></p>
+      <p style="font-size: 0.75rem; color: #6b5a3e; margin-bottom: 1.25rem;" id="account-email"></p>
 
-      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 1rem;">
+      <!-- Series Interest + Mailing List -->
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 0.75rem;">
         <div class="form-label" style="margin-bottom: 0.5rem;">Series Interest</div>
         <div class="series-check-group" id="account-series-checks">
           <label class="series-check"><input type="checkbox" value="40"> 40 Series</label>
@@ -993,35 +1026,52 @@ window.addEventListener('DOMContentLoaded', () => {
           <label class="series-check"><input type="checkbox" value="100"> 100 Series</label>
         </div>
       </div>
-
-      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 1rem;">
-        <label class="series-check">
-          <input type="checkbox" id="account-mailing"> Subscribe to mailing list — new manuals, updates &amp; news
-        </label>
+      <div style="margin-bottom: 0.75rem;">
+        <label class="series-check"><input type="checkbox" id="account-mailing"> Subscribe to mailing list</label>
       </div>
-
       <div class="form-error" id="account-error"></div>
       <div class="form-success" id="account-success"></div>
-      <button class="form-submit" style="margin-bottom: 0.75rem;" onclick="saveAccountSettings()">Save Settings</button>
+      <button class="form-submit" style="margin-bottom: 1.25rem;" onclick="saveAccountSettings()">Save Settings</button>
 
-      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 1rem;">
+      <!-- Change Password -->
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 0.75rem;">
         <div class="form-label" style="margin-bottom: 0.5rem;">Change Password</div>
         <div class="form-group">
-          <input class="form-input" type="password" id="account-current-password" placeholder="" autocomplete="current-password" style="margin-bottom: 0.5rem;">
           <label class="form-label">Current Password</label>
+          <input class="form-input" type="password" id="account-current-password" autocomplete="current-password">
         </div>
         <div class="form-group">
-          <input class="form-input" type="password" id="account-new-password" placeholder="" autocomplete="new-password" style="margin-bottom: 0.5rem;">
-          <label class="form-label">New Password (min. 8 characters)</label>
+          <label class="form-label">New Password</label>
+          <input class="form-input" type="password" id="account-new-password" autocomplete="new-password">
         </div>
         <div class="form-error" id="account-pw-error"></div>
         <div class="form-success" id="account-pw-success"></div>
-        <button class="form-submit" style="margin-bottom: 0.75rem;" onclick="changePassword()">Change Password</button>
+        <button class="form-submit" style="margin-bottom: 1.25rem;" onclick="changePassword()">Change Password</button>
       </div>
 
-      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem;">
-        <button class="form-submit" style="background: #6b5a3e;" onclick="doLogout()">Sign Out</button>
+      <!-- Change Email -->
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; margin-bottom: 0.75rem;">
+        <div class="form-label" style="margin-bottom: 0.5rem;">Change Email</div>
+        <div class="form-group">
+          <label class="form-label">New Email Address</label>
+          <input class="form-input" type="email" id="account-new-email" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current Password</label>
+          <input class="form-input" type="password" id="account-email-password" autocomplete="current-password">
+        </div>
+        <div class="form-error" id="account-email-error"></div>
+        <div class="form-success" id="account-email-success"></div>
+        <button class="form-submit" style="margin-bottom: 1.25rem;" onclick="changeEmail()">Change Email</button>
       </div>
+
+      <!-- Sign Out + Delete -->
+      <div style="border-top: 1px solid #c4b49a; padding-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button class="form-submit" style="flex: 1; background: #6b5a3e;" onclick="doLogout()">Sign Out</button>
+        <button class="form-submit" style="flex: 1; background: #8b2c2c;" onclick="requestDeleteAccount()">Delete Account</button>
+      </div>
+      <div class="form-error" id="account-delete-error"></div>
+      <div class="form-success" id="account-delete-success"></div>
     </div>
 
   </div>
@@ -1078,179 +1128,179 @@ function showView(name) {
   });
 }
 
-// Close on overlay click
 document.getElementById('auth-modal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-// Check for reset token in URL
+// Handle URL params on load
 (function() {
   const params = new URLSearchParams(window.location.search);
-  if (params.get('reset')) {
-    openModal('reset');
-  }
+  if (params.get('reset')) openModal('reset');
   if (params.get('verified') === 'success') {
-    checkSession();
-    alert('Email verified! You are now signed in.');
+    checkSession().then(() => showNotice('Email verified — you are now signed in.'));
   }
   if (params.get('verified') === 'invalid') {
     openModal('login');
     showError('login-error', 'Invalid or expired verification link.');
   }
+  if (params.get('email_change') === 'success') showNotice('Email address updated successfully.');
+  if (params.get('email_change') === 'invalid') showNotice('Invalid or expired email change link.', true);
+  if (params.get('deleted') === 'success') showNotice('Your account has been deleted.');
+  if (params.get('deleted') === 'invalid') showNotice('Invalid or expired deletion link.', true);
 })();
 
-// ── Verify Notice ───────────────────────────────────────────────────────────
+// ── Notice popup ────────────────────────────────────────────────────────────
+function showNotice(msg, isError = false) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay open';
+  overlay.innerHTML = `
+    <div class="modal" style="text-align:center;max-width:360px;">
+      <p style="font-size:0.9rem;color:${isError ? '#8b2c2c' : '#2a2118'};line-height:1.7;margin-bottom:1.5rem;">${msg}</p>
+      <button class="form-submit" onclick="this.closest('.modal-overlay').remove()">OK</button>
+    </div>
+  `;
+  overlay.addEventListener('click', function(e) { if (e.target === this) this.remove(); });
+  document.body.appendChild(overlay);
+}
+
 function showVerifyNotice(email) {
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay open';
   overlay.innerHTML = `
-    <div class="modal" style="text-align: center;">
+    <div class="modal" style="text-align:center;">
       <div class="modal-title">Check Your Email</div>
-      <p style="font-size: 0.85rem; color: #2a2118; line-height: 1.7; margin-bottom: 1rem;">
+      <p style="font-size:0.85rem;color:#2a2118;line-height:1.7;margin-bottom:1rem;">
         We've sent a verification link to<br><strong>${email}</strong>
       </p>
-      <p style="font-size: 0.78rem; color: #6b5a3e; line-height: 1.6; margin-bottom: 1.5rem;">
+      <p style="font-size:0.78rem;color:#6b5a3e;line-height:1.6;margin-bottom:1rem;">
         Click the link in the email to activate your account and access the manual archive.
+      </p>
+      <p style="font-size:0.75rem;color:#6b5a3e;margin-bottom:1.5rem;">
+        Didn't get it? <a onclick="resendVerify('${email}')" style="color:#2a2118;cursor:pointer;border-bottom:1px solid;">Resend verification email</a>
       </p>
       <button class="form-submit" onclick="this.closest('.modal-overlay').remove()">OK</button>
     </div>
   `;
-  overlay.addEventListener('click', function(e) {
-    if (e.target === this) this.remove();
-  });
+  overlay.addEventListener('click', function(e) { if (e.target === this) this.remove(); });
   document.body.appendChild(overlay);
 }
 
-// ── Auth Actions ────────────────────────────────────────────────────────────
+async function resendVerify(email) {
+  try {
+    const res = await fetch(`${API}/resend-verify`, {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    showNotice(data.message || 'Verification email sent.');
+  } catch {
+    showNotice('Something went wrong. Please try again.', true);
+  }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
 function showError(id, msg) {
   const el = document.getElementById(id);
-  el.textContent = msg;
-  el.classList.add('show');
+  if (!el) return;
+  el.textContent = msg; el.classList.add('show');
 }
-
 function showSuccess(id, msg) {
   const el = document.getElementById(id);
-  el.textContent = msg;
-  el.classList.add('show');
+  if (!el) return;
+  el.textContent = msg; el.classList.add('show');
 }
-
 function clearMessages(...ids) {
   ids.forEach(id => {
     const el = document.getElementById(id);
-    el.classList.remove('show');
-    el.textContent = '';
+    if (el) { el.classList.remove('show'); el.textContent = ''; }
   });
 }
+async function apiPost(endpoint, body) {
+  return fetch(`${API}/${endpoint}`, {
+    method: 'POST', credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  }).then(r => r.json());
+}
 
+// ── Signup ──────────────────────────────────────────────────────────────────
 async function doSignup() {
   clearMessages('signup-error', 'signup-success');
   const username = document.getElementById('signup-username').value.trim();
   const email = document.getElementById('signup-email').value.trim();
   const password = document.getElementById('signup-password').value;
-  const checks = document.querySelectorAll('.series-check-group input:checked');
-  const series = Array.from(checks).map(c => c.value).join(',');
+  const series = Array.from(document.querySelectorAll('.series-check-group input:checked')).map(c => c.value).join(',');
   const mailing = document.getElementById('signup-mailing').checked;
-
   const btn = document.getElementById('signup-btn');
-  btn.disabled = true;
-  btn.textContent = 'Creating account...';
-
+  btn.disabled = true; btn.textContent = 'Creating account...';
   try {
-    const res = await fetch(`${API}/signup`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password, series_interest: series, mailing_list: mailing }),
-    });
-    const data = await res.json();
-    if (data.error) {
-      showError('signup-error', data.error);
-    } else {
-      // Clear form
+    const data = await apiPost('signup', { username, email, password, series_interest: series, mailing_list: mailing });
+    if (data.error) { showError('signup-error', data.error); }
+    else {
       document.getElementById('signup-username').value = '';
       document.getElementById('signup-email').value = '';
       document.getElementById('signup-password').value = '';
-      document.querySelectorAll('.series-check-group input').forEach(c => c.checked = false);
-      document.getElementById('signup-mailing').checked = false;
-      clearMessages('signup-error', 'signup-success');
-      // Close modal and show verify notice
+      document.querySelectorAll('.series-check-group input, #signup-mailing').forEach(c => c.checked = false);
       closeModal();
       showVerifyNotice(email);
     }
-  } catch {
-    showError('signup-error', 'Something went wrong. Please try again.');
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Create Account';
+  } catch { showError('signup-error', 'Something went wrong. Please try again.'); }
+  btn.disabled = false; btn.textContent = 'Create Account';
 }
 
+// ── Login ───────────────────────────────────────────────────────────────────
 async function doLogin() {
   clearMessages('login-error', 'login-success');
   const identifier = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
-
   const btn = document.getElementById('login-btn');
-  btn.disabled = true;
-  btn.textContent = 'Signing in...';
-
+  btn.disabled = true; btn.textContent = 'Signing in...';
   try {
-    const res = await fetch(`${API}/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: identifier, password }),
-    });
-    const data = await res.json();
+    const data = await apiPost('login', { email: identifier, password });
     if (data.error) {
       showError('login-error', data.error);
+      // If unverified, offer resend
+      if (data.error.includes('verify')) {
+        const el = document.getElementById('login-error');
+        el.innerHTML += ` <a onclick="showResendForm()" style="cursor:pointer;border-bottom:1px solid;color:#8b2c2c;">Resend link</a>`;
+      }
     } else {
-      // Fetch session to get username
       await checkSession();
       closeModal();
       if (pendingDownload) {
-        const p = pendingDownload;
-        pendingDownload = null;
+        const p = pendingDownload; pendingDownload = null;
         handleDownload(p.code, p.title, p.url);
       }
     }
-  } catch {
-    showError('login-error', 'Something went wrong. Please try again.');
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Sign In';
+  } catch { showError('login-error', 'Something went wrong. Please try again.'); }
+  btn.disabled = false; btn.textContent = 'Sign In';
 }
 
+function showResendForm() {
+  const email = document.getElementById('login-email').value.trim();
+  if (email) resendVerify(email);
+  else showNotice('Enter your email in the field above first.', true);
+}
+
+// ── Logout ──────────────────────────────────────────────────────────────────
 async function doLogout() {
   await fetch(`${API}/logout`, { method: 'POST', credentials: 'include' });
-  currentUser = null;
-  renderAuthHeader(false);
-  closeModal();
+  currentUser = null; renderAuthHeader(false); closeModal();
 }
 
+// ── Forgot / Reset Password ─────────────────────────────────────────────────
 async function doForgot() {
   clearMessages('forgot-error', 'forgot-success');
   const email = document.getElementById('forgot-email').value.trim();
   const btn = document.getElementById('forgot-btn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-
+  btn.disabled = true; btn.textContent = 'Sending...';
   try {
-    const res = await fetch(`${API}/forgot-password`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
-    const data = await res.json();
-    showSuccess('forgot-success', data.message || 'Reset link sent if account exists.');
-  } catch {
-    showError('forgot-error', 'Something went wrong. Please try again.');
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Send Reset Link';
+    const data = await apiPost('forgot-password', { email });
+    if (data.error) showError('forgot-error', data.error);
+    else showSuccess('forgot-success', data.message || 'Reset link sent if account exists.');
+  } catch { showError('forgot-error', 'Something went wrong. Please try again.'); }
+  btn.disabled = false; btn.textContent = 'Send Reset Link';
 }
 
 async function doReset() {
@@ -1258,29 +1308,13 @@ async function doReset() {
   const password = document.getElementById('reset-password').value;
   const token = new URLSearchParams(window.location.search).get('reset');
   const btn = document.getElementById('reset-btn');
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
-
+  btn.disabled = true; btn.textContent = 'Saving...';
   try {
-    const res = await fetch(`${API}/reset-password`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, password }),
-    });
-    const data = await res.json();
-    if (data.error) {
-      showError('reset-error', data.error);
-    } else {
-      showSuccess('reset-success', 'Password reset. You can now sign in.');
-      setTimeout(() => showView('login'), 2000);
-    }
-  } catch {
-    showError('reset-error', 'Something went wrong. Please try again.');
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Set Password';
+    const data = await apiPost('reset-password', { token, password });
+    if (data.error) showError('reset-error', data.error);
+    else { showSuccess('reset-success', 'Password reset. You can now sign in.'); setTimeout(() => showView('login'), 2000); }
+  } catch { showError('reset-error', 'Something went wrong. Please try again.'); }
+  btn.disabled = false; btn.textContent = 'Set Password';
 }
 
 // ── Account Settings ────────────────────────────────────────────────────────
@@ -1289,70 +1323,88 @@ async function loadAccountSettings() {
     const res = await fetch(`${API}/get-settings`, { credentials: 'include' });
     const data = await res.json();
     if (data.error) return;
-
-    // Set series checkboxes
     const series = (data.series_interest || '').split(',').filter(Boolean);
-    document.querySelectorAll('#account-series-checks input').forEach(cb => {
-      cb.checked = series.includes(cb.value);
-    });
-
-    // Set mailing list
+    document.querySelectorAll('#account-series-checks input').forEach(cb => { cb.checked = series.includes(cb.value); });
     document.getElementById('account-mailing').checked = data.mailing_list;
   } catch {}
 }
 
 async function saveAccountSettings() {
   clearMessages('account-error', 'account-success');
-  const checks = document.querySelectorAll('#account-series-checks input:checked');
-  const series = Array.from(checks).map(c => c.value).join(',');
+  const series = Array.from(document.querySelectorAll('#account-series-checks input:checked')).map(c => c.value).join(',');
   const mailing = document.getElementById('account-mailing').checked;
-
   try {
-    const res = await fetch(`${API}/update-settings`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ series_interest: series, mailing_list: mailing }),
-    });
-    const data = await res.json();
-    if (data.error) {
-      showError('account-error', data.error);
-    } else {
-      showSuccess('account-success', 'Settings saved.');
-    }
-  } catch {
-    showError('account-error', 'Something went wrong. Please try again.');
-  }
+    const data = await apiPost('update-settings', { series_interest: series, mailing_list: mailing });
+    if (data.error) showError('account-error', data.error);
+    else showSuccess('account-success', 'Settings saved.');
+  } catch { showError('account-error', 'Something went wrong. Please try again.'); }
 }
 
 async function changePassword() {
   clearMessages('account-pw-error', 'account-pw-success');
   const current = document.getElementById('account-current-password').value;
   const newPw = document.getElementById('account-new-password').value;
-
-  if (!current || !newPw) {
-    showError('account-pw-error', 'Both fields are required.');
-    return;
-  }
-
+  if (!current || !newPw) { showError('account-pw-error', 'Both fields are required.'); return; }
   try {
-    const res = await fetch(`${API}/change-password`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ current_password: current, new_password: newPw }),
-    });
-    const data = await res.json();
-    if (data.error) {
-      showError('account-pw-error', data.error);
-    } else {
+    const data = await apiPost('change-password', { current_password: current, new_password: newPw });
+    if (data.error) showError('account-pw-error', data.error);
+    else {
       showSuccess('account-pw-success', 'Password changed successfully.');
       document.getElementById('account-current-password').value = '';
       document.getElementById('account-new-password').value = '';
     }
-  } catch {
-    showError('account-pw-error', 'Something went wrong. Please try again.');
-  }
+  } catch { showError('account-pw-error', 'Something went wrong. Please try again.'); }
+}
+
+async function changeEmail() {
+  clearMessages('account-email-error', 'account-email-success');
+  const new_email = document.getElementById('account-new-email').value.trim();
+  const password = document.getElementById('account-email-password').value;
+  if (!new_email || !password) { showError('account-email-error', 'Both fields are required.'); return; }
+  try {
+    const data = await apiPost('change-email', { new_email, password });
+    if (data.error) showError('account-email-error', data.error);
+    else {
+      showSuccess('account-email-success', 'Check your new email address to confirm the change.');
+      document.getElementById('account-new-email').value = '';
+      document.getElementById('account-email-password').value = '';
+    }
+  } catch { showError('account-email-error', 'Something went wrong. Please try again.'); }
+}
+
+async function requestDeleteAccount() {
+  clearMessages('account-delete-error', 'account-delete-success');
+  const confirmed = confirm('Are you sure you want to delete your account? We\'ll send you a confirmation email — the deletion only happens when you click the link in that email.');
+  if (!confirmed) return;
+  try {
+    const data = await apiPost('request-delete', {});
+    if (data.error) showError('account-delete-error', data.error);
+    else showSuccess('account-delete-success', 'Check your email to confirm account deletion.');
+  } catch { showError('account-delete-error', 'Something went wrong. Please try again.'); }
+}
+
+// ── Request a Manual ────────────────────────────────────────────────────────
+async function submitManualRequest() {
+  clearMessages('manual-req-error', 'manual-req-success');
+  const manual_code = document.getElementById('req-code').value.trim();
+  const manual_title = document.getElementById('req-title').value.trim();
+  const notes = document.getElementById('req-notes').value.trim();
+  const email = document.getElementById('req-email').value.trim();
+  if (!manual_code) { showError('manual-req-error', 'Publication code is required.'); return; }
+  const btn = document.getElementById('req-btn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try {
+    const data = await apiPost('request-manual', { manual_code, manual_title, notes, email });
+    if (data.error) showError('manual-req-error', data.error);
+    else {
+      showSuccess('manual-req-success', 'Request received — thank you.');
+      document.getElementById('req-code').value = '';
+      document.getElementById('req-title').value = '';
+      document.getElementById('req-notes').value = '';
+      document.getElementById('req-email').value = '';
+    }
+  } catch { showError('manual-req-error', 'Something went wrong. Please try again.'); }
+  btn.disabled = false; btn.textContent = 'Submit Request';
 }
 
 // ── Download Gating ─────────────────────────────────────────────────────────
@@ -1364,30 +1416,22 @@ async function handleDownload(code, title, directUrl) {
     openModal('login');
     return;
   }
-
   try {
     const res = await fetch(`${API}/download`, {
-      method: 'POST',
-      credentials: 'include',
+      method: 'POST', credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ manual_code: code, manual_title: title }),
     });
     const data = await res.json();
-    if (data.url) {
-      window.open(data.url, '_blank');
-    } else if (data.error === 'Not authenticated' || data.error === 'Session expired') {
-      currentUser = null;
-      renderAuthHeader(false);
+    if (data.url) { window.open(data.url, '_blank'); }
+    else if (data.error === 'Not authenticated' || data.error === 'Session expired') {
+      currentUser = null; renderAuthHeader(false);
       pendingDownload = { code, title, url: directUrl };
       openModal('login');
     }
-  } catch {
-    // Fallback to direct URL
-    window.open(directUrl, '_blank');
-  }
+  } catch { window.open(directUrl, '_blank'); }
 }
 
-// ── Intercept PDF links ─────────────────────────────────────────────────────
 document.addEventListener('click', function(e) {
   const link = e.target.closest('a.pdf-link');
   if (!link) return;
