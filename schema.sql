@@ -1,5 +1,5 @@
 -- Land Cruiser Workshop — D1 Database Schema
--- Full schema including all new tables and columns
+-- Safe to run on existing database
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,12 +53,6 @@ CREATE TABLE IF NOT EXISTS manual_requests (
     requested_at INTEGER DEFAULT (unixepoch()),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
-
--- Alter existing users table to add new columns (safe to run on existing DB)
-ALTER TABLE users ADD COLUMN pending_email TEXT;
-ALTER TABLE users ADD COLUMN email_change_token TEXT;
-ALTER TABLE users ADD COLUMN delete_token TEXT;
-ALTER TABLE users ADD COLUMN delete_token_expires INTEGER;
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
